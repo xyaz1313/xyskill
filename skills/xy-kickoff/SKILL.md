@@ -1,6 +1,13 @@
 ---
 name: xy-kickoff
-description: 执行力诊断。用户知道该做什么（发第一条视频、加第一批人、卖第一盒货、开第一场播）却迟迟不动时，帮他辨认自己卡在六种"不开工"里的哪一种，并按类型给出最小的开工动作，不是打鸡血。用户说「我知道该做但就是不做」「我总在准备」「我又想换个方向」「学完这个课我就开始」「等我再打磨一下」「我现在条件不允许」时使用。
+slug: xy-kickoff
+version: 1.0.0
+displayName: 开工诊断
+display_name: "开工诊断"
+display_name_en: "开工诊断"
+description_zh: "执行力诊断。用户知道该做什么（发第一条视频、加第一批人、卖第一盒货、开第一场播）却迟迟不动时，帮他辨认自己卡在六种"不开工"里的哪一种，并按类型给出最小的开工动作，不是打鸡血。用户说「我知道该做但就是不做」「我总在准备」「我又想换个方向」「学完这个课我就开始」「等我再打磨一下」「我现在条件不允许」时使用。"
+visibility: "public"
+description: 【开工诊断】执行力诊断。用户知道该做什么（发第一条视频、加第一批人、卖第一盒货、开第一场播）却迟迟不动时，帮他辨认自己卡在六种"不开工"里的哪一种，并按类型给出最小的开工动作，不是打鸡血。用户说「我知道该做但就是不做」「我总在准备」「我又想换个方向」「学完这个课我就开始」「等我再打磨一下」「我现在条件不允许」时使用。
 ---
 
 # xy-kickoff：执行力诊断
@@ -214,9 +221,9 @@ description: 执行力诊断。用户知道该做什么（发第一条视频、�
 **检索词怎么造**：用**用户的原话词 + 场景词**（"太贵 价格 异议 处理"），不要堆抽象术语——像"锚点""势能""闭环"这类词会把其它领域的原子捞进来（搜"锚点"会捞到采购起标价）。术语只在用户自己说了的时候才用。**每个词 2-4 字，绝不用复合长词**——"核销率提升""在线人数波谷"这类词库里一个字面都没有，必然零命中；要拆成"核销 团购 引流""直播 留人 在线"这种短词。检索一次不满意就换一组词再试，不要拿第一次的结果凑合。
 
 
-**⚠️ `references/atoms.jsonl` 禁止整读**（最大可达数 MB）——一律用 atoms-search 脚本取 3–5 条，取不到就明说，绝不 cat/Read 整个文件。
+**⚠️ `references/atoms.jsonl` 禁止整读**（最大可达数 MB）——一律用 atoms-search.py 脚本取 3–5 条，取不到就明说，绝不 cat/Read 整个文件。
 
-本 skill 目录 `references/atoms.jsonl` 是原子库中标记为 `xy-kickoff` 的子集（83 条），topics 优先「认知与心态」「新人起步方法论」，type 优先 case / anti-pattern / principle，检索不到再回主库 `knowledge/atoms.jsonl`。可用 `python3 <本 skill 目录>/scripts/atoms-search "<关键词>" --skill xy-kickoff -k 5`（例：`atoms-search "完美 打磨 不发" --skill xy-kickoff`）。引用不到写"原子库暂无实证"。用户事实与原子冲突时以用户事实为准并标注冲突。
+本 skill 目录 `references/atoms.jsonl` 是原子库中标记为 `xy-kickoff` 的子集（83 条），topics 优先「认知与心态」「新人起步方法论」，type 优先 case / anti-pattern / principle，检索不到再回主库 `knowledge/atoms.jsonl`。可用 `python3 <本 skill 目录>/scripts/atoms-search.py "<关键词>" --skill xy-kickoff -k 5`（例：`atoms-search.py "完美 打磨 不发" --skill xy-kickoff`）。引用不到写"原子库暂无实证"。用户事实与原子冲突时以用户事实为准并标注冲突。
 
 ---
 

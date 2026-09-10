@@ -1,6 +1,13 @@
 ---
 name: xy-ai-workflow
-description: 内容生产 AI 流水线——先审计你现在从想法到发布每一步是谁在做、卡在哪，再判定哪一步该给 AI、哪一步必须留人，然后把想法→选题→逐字稿→切片→标题→发布排雷编排成一条有交接物的流水线，教你"某个环节 AI 跑通了就固化成 skill"的方法，并划清文风复制的正当边界（复制结构，不复制别人的稿）。用户说"我想搭一条 AI 内容流水线""哪一步能让 AI 干""这个环节怎么固化成 skill""怎么让 AI 写得像我""我的内容生产太慢了"时触发。
+slug: xy-ai-workflow
+version: 1.0.0
+displayName: AI流水线
+display_name: "AI流水线"
+display_name_en: "AI流水线"
+description_zh: "内容生产 AI 流水线——先审计你现在从想法到发布每一步是谁在做、卡在哪，再判定哪一步该给 AI、哪一步必须留人，然后把想法→选题→逐字稿→切片→标题→发布排雷编排成一条有交接物的流水线，教你"某个环节 AI 跑通了就固化成 skill"的方法，并划清文风复制的正当边界（复制结构，不复制别人的稿）。用户说"我想搭一条 AI 内容流水线""哪一步能让 AI 干""这个环节怎么固化成 skill""怎么让 AI 写得像我""我的内容生产太慢了"时触发。"
+visibility: "public"
+description: 【AI流水线】内容生产 AI 流水线——先审计你现在从想法到发布每一步是谁在做、卡在哪，再判定哪一步该给 AI、哪一步必须留人，然后把想法→选题→逐字稿→切片→标题→发布排雷编排成一条有交接物的流水线，教你"某个环节 AI 跑通了就固化成 skill"的方法，并划清文风复制的正当边界（复制结构，不复制别人的稿）。用户说"我想搭一条 AI 内容流水线""哪一步能让 AI 干""这个环节怎么固化成 skill""怎么让 AI 写得像我""我的内容生产太慢了"时触发。
 ---
 
 # xy-ai-workflow：内容生产 AI 流水线
@@ -222,9 +229,9 @@ description: 内容生产 AI 流水线——先审计你现在从想法到发布
 **检索词怎么造**：用**用户的原话词 + 场景词**（"太贵 价格 异议 处理"），不要堆抽象术语——像"锚点""势能""闭环"这类词会把其它领域的原子捞进来（搜"锚点"会捞到采购起标价）。术语只在用户自己说了的时候才用。**每个词 2-4 字，绝不用复合长词**——"核销率提升""在线人数波谷"这类词库里一个字面都没有，必然零命中；要拆成"核销 团购 引流""直播 留人 在线"这种短词。检索一次不满意就换一组词再试，不要拿第一次的结果凑合。
 
 
-**⚠️ `references/atoms.jsonl` 禁止整读**（最大可达数 MB）——一律用 atoms-search 脚本取 3–5 条，取不到就明说，绝不 cat/Read 整个文件。
+**⚠️ `references/atoms.jsonl` 禁止整读**（最大可达数 MB）——一律用 atoms-search.py 脚本取 3–5 条，取不到就明说，绝不 cat/Read 整个文件。
 
-本 skill 目录 `references/atoms.jsonl` 是原子库中标记为本 skill 的子集（AI 与工具、Agent 与 skill 体系、工程化迭代、文风复制、账号原子）。Phase 2 每个检查项，按 type∈{case,anti-pattern,number,method} 与 topics 匹配检索 3–5 条，在报告对应行引用 id；引用不到写"原子库暂无实证"。可用 `python3 <本 skill 目录>/scripts/atoms-search "<关键词>" --skill xy-ai-workflow -k 5`。用户事实与原子冲突时以用户事实为准并标注冲突。
+本 skill 目录 `references/atoms.jsonl` 是原子库中标记为本 skill 的子集（AI 与工具、Agent 与 skill 体系、工程化迭代、文风复制、账号原子）。Phase 2 每个检查项，按 type∈{case,anti-pattern,number,method} 与 topics 匹配检索 3–5 条，在报告对应行引用 id；引用不到写"原子库暂无实证"。可用 `python3 <本 skill 目录>/scripts/atoms-search.py "<关键词>" --skill xy-ai-workflow -k 5`。用户事实与原子冲突时以用户事实为准并标注冲突。
 
 ---
 

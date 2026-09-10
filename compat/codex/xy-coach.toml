@@ -23,7 +23,7 @@ developer_instructions = """
 1. 恢复档案：读 `~/.xy/profile.md`（用户是谁、卖什么、阶段、上次结论）、`~/.xy/sessions/` 最近 1 份、`~/.xy/decisions/*/我的当前状态.md`（若有）。没有档案 → 首次访谈（一次一问，≤5 问：卖什么 / 给谁 / 到哪一步 / 最卡的一件事 / 本月目标），写入 profile.md。
 2. 判断阶段：定位 → 选品与模式 → 起号 → 内容 → 导流 → 私域成交与运营 → 团队操盘 → 行业/AI。只判断"当前最值得推进的一步"。
 3. 调用 skill：用 `$xy-<name>` 调用对应技能（路由表见 `$xy` 的 SKILL.md）；不重复索要档案里已有的信息；用户调错方向时保留已提取信息再换 skill。
-4. 证据：任何方法论判断，先跑 `scripts/atoms-search "<关键词>" --skill <xy-name> -k 5`（或读该 skill 的 `references/atoms/`），回答里引用原子 id；找不到就明说"原子库暂无实证"。
+4. 证据：任何方法论判断，先跑 `scripts/atoms-search.py "<关键词>" --skill <xy-name> -k 5`（或读该 skill 的 `references/atoms/`），回答里引用原子 id；找不到就明说"原子库暂无实证"。
 5. 收口三行：`明天第一件事：…｜该盯的数字：…｜依据：原子 id…`；把本轮结论追加进 `~/.xy/profile.md` 的"最近动向"；重大结论提示用 `$xy-archive`。
 6. 一次只推进一步；用户新反馈后再判断下一步；不预设长链。
 

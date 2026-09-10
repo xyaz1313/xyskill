@@ -123,7 +123,7 @@ claude plugin install xy@xy-skills
 | `agents/xy-coach.md` | 教练智能体 |
 | `_shared/` | 9 条信条、语气红线、路由契约、板块清单 |
 | `knowledge/` | 原子库（`_internal/` 是内部草料，不对外分发） |
-| `scripts/` | atoms-search 检索脚本、xy-init、xy-brain |
+| `scripts/` | atoms-search.py 检索脚本、xy-init、xy-brain |
 | `docs/` | 新手入门、指令清单、宿主兼容矩阵 |
 | `hooks/` | 会话启动钩子 |
 

@@ -2,13 +2,12 @@
 # 由 tools/gen_skill_scripts.py 从根 scripts/atoms-search 下发，勿手改；重建跑 gen_skill_scripts.py
 """XY 原子检索（零依赖）。用法：
   atoms-search "关键词 关键词2" [--skill xy-close] [--type case,anti-pattern] [--topic 成交与话术] [-k 5] [--json]
-默认在 <本脚本所在包>/knowledge/atoms.jsonl 检索；可用 XY_ATOMS 环境变量指定路径。
+默认在 <本脚本所在包>/knowledge/atoms.jsonl 检索；可用 XY_ATOMS 环境变量指定路径，指向 https:// 地址时走云端检索、失败自动回退本地兜底子集。
 评分：knowledge 命中关键词数×3 + original 命中×1 + type 偏好(case/anti-pattern/number +1) + confidence high +1。"""
 import json, os, sys, re, argparse
-def _find_atoms():
-    """定位原子库：XY_ATOMS 环境变量 > 本脚本真实路径所在包 > ~/.xy/config.json 的 root > 常见安装位置。
+def _find_atoms_local():
+    """本地候选路径：本脚本真实路径所在包 > ~/.xy/config.json 的 root > 常见安装位置。
     用 realpath 是因为宿主常以软链方式加载 skill（~/.claude/skills/xy-coach → 仓库），按软链位置找会找到不存在的目录。"""
-    if os.environ.get("XY_ATOMS"): return os.environ["XY_ATOMS"]
     here=os.path.dirname(os.path.realpath(__file__))
     cands=[os.path.join(os.path.dirname(here),"knowledge","atoms.jsonl"),            # <root>/scripts/atoms-search
            os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(here))),"knowledge","atoms.jsonl"),  # <root>/skills/<x>/scripts/atoms-search
@@ -23,6 +22,25 @@ def _find_atoms():
     for c in cands:
         if os.path.isfile(c): return c
     return cands[0]
+
+def _find_atoms():
+    """XY_ATOMS 环境变量（本地路径或 https:// 地址）优先，否则走本地候选路径。"""
+    if os.environ.get("XY_ATOMS"): return os.environ["XY_ATOMS"]
+    return _find_atoms_local()
+
+def _remote_search(url, skill, query, topic, top_k):
+    """打云端 /v1/atoms/search，2.5 秒超时，任何异常一律交给调用方回退本地。"""
+    import urllib.request
+    payload={"skill":skill,"query":query,"top_k":top_k}
+    if topic: payload["topics"]=[topic]
+    req=urllib.request.Request(
+        url.rstrip("/")+"/v1/atoms/search",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type":"application/json"},
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=2.5) as resp:
+        return json.loads(resp.read().decode("utf-8")).get("atoms", [])
 
 # === 真 IDF 权重：出现在几千条里的词（提升/转化/品牌）没有定位价值，只有稀有词才算数 ===
 _IDF={}
@@ -41,6 +59,16 @@ def _load_idf(atoms_path):
 default=_find_atoms()
 ap=argparse.ArgumentParser(); ap.add_argument("query"); ap.add_argument("--skill"); ap.add_argument("--type"); ap.add_argument("--topic"); ap.add_argument("-k",type=int,default=5); ap.add_argument("--json",action="store_true"); ap.add_argument("--file",default=default)
 a=ap.parse_args()
+if a.file.startswith("http://") or a.file.startswith("https://"):
+    try:
+        remote_rows=_remote_search(a.file, a.skill, a.query, a.topic, a.k)
+        if a.json: print(json.dumps(remote_rows, ensure_ascii=False)); sys.exit(0)
+        for o in remote_rows:
+            print(f"- [{o['id']}] ({o.get('confidence')}) {o['knowledge']}")
+        if not remote_rows: print("（原子库暂无匹配，请明说没有实证）")
+        sys.exit(0)
+    except Exception:
+        a.file=_find_atoms_local()  # 云端不可达/超时/出错，静默回退本地兜底子集，不让 Skill 因此失效
 _IDF=_load_idf(a.file)
 kws=[w for w in re.split(r"[\s,，、/]+",a.query) if w]
 # 长复合词降级：把 >4 字的词同时拆成 2-3 字子串一起检索（"核销率提升"→核销/提升），

@@ -1,6 +1,13 @@
 ---
 name: xy-ops
-description: 操盘手视角审查：用起盘阶段匹配度、组织规模临界值、人效红线、分钱执行与人心、一线检验五个维度，审查团队搭建、人效设计和起盘节奏是不是踩在真实业务阶段上，排除「团队大就是强」「GMV 好看就是赚钱」「靠感情能管好团队」这类假信号。用户说「帮我看看团队搭建得对不对」「提成怎么设」「该不该扩团队」「起盘节奏是不是太快」「人效有没有问题」「团队为什么留不住人」时触发。
+slug: xy-ops
+version: 1.0.0
+displayName: 操盘审查
+display_name: "操盘审查"
+display_name_en: "操盘审查"
+description_zh: "操盘手视角审查：用起盘阶段匹配度、组织规模临界值、人效红线、分钱执行与人心、一线检验五个维度，审查团队搭建、人效设计和起盘节奏是不是踩在真实业务阶段上，排除「团队大就是强」「GMV 好看就是赚钱」「靠感情能管好团队」这类假信号。用户说「帮我看看团队搭建得对不对」「提成怎么设」「该不该扩团队」「起盘节奏是不是太快」「人效有没有问题」「团队为什么留不住人」时触发。"
+visibility: "public"
+description: 【操盘审查】操盘手视角审查：用起盘阶段匹配度、组织规模临界值、人效红线、分钱执行与人心、一线检验五个维度，审查团队搭建、人效设计和起盘节奏是不是踩在真实业务阶段上，排除「团队大就是强」「GMV 好看就是赚钱」「靠感情能管好团队」这类假信号。用户说「帮我看看团队搭建得对不对」「提成怎么设」「该不该扩团队」「起盘节奏是不是太快」「人效有没有问题」「团队为什么留不住人」时触发。
 ---
 
 # xy-ops：操盘手视角审查
@@ -225,9 +232,9 @@ description: 操盘手视角审查：用起盘阶段匹配度、组织规模临�
 **⚠️ 本 skill 的 references 弹药量很大（数千条），按块收窄检索**：先判断用户的问题落在哪个块（板块 11，块清单见 `_shared/atom-blocks.json`），再用该块关键词+问题词一起检索，不要只用宽泛词捞全库——宽泛词捞回来的是噪音，块内检索回来的才是弹药。命中的原子若带 `related` 字段，可顺带看一眼那几条"不同角度"的兄弟原子。
 
 
-**⚠️ `references/atoms.jsonl` 禁止整读**（最大可达数 MB）——一律用 atoms-search 脚本取 3–5 条，取不到就明说，绝不 cat/Read 整个文件。
+**⚠️ `references/atoms.jsonl` 禁止整读**（最大可达数 MB）——一律用 atoms-search.py 脚本取 3–5 条，取不到就明说，绝不 cat/Read 整个文件。
 
-本 skill 目录 `references/atoms.jsonl` 是原子库中标记为本 skill 的子集。Phase 2 每个检查项，按 type∈{case,anti-pattern,number,method} 与 topics 匹配检索 3–5 条，在报告对应行引用 id；引用不到写「原子库暂无实证」。可用 `python3 <本 skill 目录>/scripts/atoms-search "<关键词>" --skill xy-ops -k 5`。用户事实与原子冲突时以用户事实为准并标注冲突。
+本 skill 目录 `references/atoms.jsonl` 是原子库中标记为本 skill 的子集。Phase 2 每个检查项，按 type∈{case,anti-pattern,number,method} 与 topics 匹配检索 3–5 条，在报告对应行引用 id；引用不到写「原子库暂无实证」。可用 `python3 <本 skill 目录>/scripts/atoms-search.py "<关键词>" --skill xy-ops -k 5`。用户事实与原子冲突时以用户事实为准并标注冲突。
 
 ---
 

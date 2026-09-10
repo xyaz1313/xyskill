@@ -1,6 +1,13 @@
 ---
 name: xy-question-spec
-description: 问题说明书。把"为什么没人咨询""客户加了不回""这事能不能让 AI 自动做"这类说不清的问题，改写成有对象、有冲突、有约束、有反馈入口的问题说明书，并判断它能被 Agent 接手到哪一档。用户说「帮我把问题说清楚」「这个问题能不能自动化」「我也不知道问题出在哪」「为什么我的…没人…」「能不能让 AI 替我做这个」时使用。
+slug: xy-question-spec
+version: 1.0.0
+displayName: 问题说明书
+display_name: "问题说明书"
+display_name_en: "问题说明书"
+description_zh: "问题说明书。把"为什么没人咨询""客户加了不回""这事能不能让 AI 自动做"这类说不清的问题，改写成有对象、有冲突、有约束、有反馈入口的问题说明书，并判断它能被 Agent 接手到哪一档。用户说「帮我把问题说清楚」「这个问题能不能自动化」「我也不知道问题出在哪」「为什么我的…没人…」「能不能让 AI 替我做这个」时使用。"
+visibility: "public"
+description: 【问题说明书】问题说明书。把"为什么没人咨询""客户加了不回""这事能不能让 AI 自动做"这类说不清的问题，改写成有对象、有冲突、有约束、有反馈入口的问题说明书，并判断它能被 Agent 接手到哪一档。用户说「帮我把问题说清楚」「这个问题能不能自动化」「我也不知道问题出在哪」「为什么我的…没人…」「能不能让 AI 替我做这个」时使用。
 ---
 
 # xy-question-spec：问题说明书
@@ -271,9 +278,9 @@ Agent 的长处是在约束定死的地方搜索、组合、推理、改错，�
 **检索词怎么造**：用**用户的原话词 + 场景词**（"太贵 价格 异议 处理"），不要堆抽象术语——像"锚点""势能""闭环"这类词会把其它领域的原子捞进来（搜"锚点"会捞到采购起标价）。术语只在用户自己说了的时候才用。**每个词 2-4 字，绝不用复合长词**——"核销率提升""在线人数波谷"这类词库里一个字面都没有，必然零命中；要拆成"核销 团购 引流""直播 留人 在线"这种短词。检索一次不满意就换一组词再试，不要拿第一次的结果凑合。
 
 
-**⚠️ `references/atoms.jsonl` 禁止整读**（最大可达数 MB）——一律用 atoms-search 脚本取 3–5 条，取不到就明说，绝不 cat/Read 整个文件。
+**⚠️ `references/atoms.jsonl` 禁止整读**（最大可达数 MB）——一律用 atoms-search.py 脚本取 3–5 条，取不到就明说，绝不 cat/Read 整个文件。
 
-本 skill 目录 `references/atoms.jsonl` 是原子库中标记为本 skill 的子集（432 条），topics 优先「商业案例与实战复盘」「私域运营」「成交与话术」「AI与工具」，type 优先 case / anti-pattern / number / method。可用 `python3 <本 skill 目录>/scripts/atoms-search "<关键词>" --skill xy-question-spec -k 5`（例：`atoms-search "收藏 咨询 私信" --skill xy-question-spec`）。候选解释里引用的机制必须能对到原子 id；对不到的写"原子库暂无实证，以下为 AI 推测"。用户事实与原子冲突时以用户事实为准并标注冲突。
+本 skill 目录 `references/atoms.jsonl` 是原子库中标记为本 skill 的子集（432 条），topics 优先「商业案例与实战复盘」「私域运营」「成交与话术」「AI与工具」，type 优先 case / anti-pattern / number / method。可用 `python3 <本 skill 目录>/scripts/atoms-search.py "<关键词>" --skill xy-question-spec -k 5`（例：`atoms-search.py "收藏 咨询 私信" --skill xy-question-spec`）。候选解释里引用的机制必须能对到原子 id；对不到的写"原子库暂无实证，以下为 AI 推测"。用户事实与原子冲突时以用户事实为准并标注冲突。
 
 ---
 

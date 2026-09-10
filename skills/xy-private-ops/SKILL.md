@@ -1,6 +1,13 @@
 ---
 name: xy-private-ops
-description: 私域日常运营诊断——朋友圈内容配比与节奏、号面与人设、标签分层与打标、激活沉睡（主动+被动）、社群运营、陪伴式信任积累、直营化 vs 微商化体系判断、私域正规化七要素自查，逐项体检你的私域是在"经营"还是在"堆人"。用户说"朋友圈怎么发""一天发几条""标签怎么打""好友加了不互动""怎么激活老客户""社群没人说话""我这算直营还是微商""朋友圈发广告会不会被限流/封号"时触发。
+slug: xy-private-ops
+version: 1.0.0
+displayName: 私域运营
+display_name: "私域运营"
+display_name_en: "私域运营"
+description_zh: "私域日常运营诊断——朋友圈内容配比与节奏、号面与人设、标签分层与打标、激活沉睡（主动+被动）、社群运营、陪伴式信任积累、直营化 vs 微商化体系判断、私域正规化七要素自查，逐项体检你的私域是在"经营"还是在"堆人"。用户说"朋友圈怎么发""一天发几条""标签怎么打""好友加了不互动""怎么激活老客户""社群没人说话""我这算直营还是微商""朋友圈发广告会不会被限流/封号"时触发。"
+visibility: "public"
+description: 【私域运营】私域日常运营诊断——朋友圈内容配比与节奏、号面与人设、标签分层与打标、激活沉睡（主动+被动）、社群运营、陪伴式信任积累、直营化 vs 微商化体系判断、私域正规化七要素自查，逐项体检你的私域是在"经营"还是在"堆人"。用户说"朋友圈怎么发""一天发几条""标签怎么打""好友加了不互动""怎么激活老客户""社群没人说话""我这算直营还是微商""朋友圈发广告会不会被限流/封号"时触发。
 ---
 
 # xy-private-ops：私域日常运营诊断
@@ -322,9 +329,9 @@ description: 私域日常运营诊断——朋友圈内容配比与节奏、号�
 涉及平台具体数字（上限/比例/处罚标准）时，若宿主有联网工具，先联网核对当下口径再回答（官方来源优先，标注查证日期）；查不了就给官方入口，不凭库存印象报数。
 
 
-**⚠️ `references/atoms.jsonl` 禁止整读**（最大可达数 MB）——一律用 atoms-search 脚本取 3–5 条，取不到就明说，绝不 cat/Read 整个文件。
+**⚠️ `references/atoms.jsonl` 禁止整读**（最大可达数 MB）——一律用 atoms-search.py 脚本取 3–5 条，取不到就明说，绝不 cat/Read 整个文件。
 
-本 skill 目录 `references/atoms.jsonl` 是原子库中标记为本 skill 的子集（2733 条）。Phase 2 每个检查项，按 type∈{case,anti-pattern,number,method} 与 topics（私域运营 / 流量获取 / 成交与话术）匹配检索 3–5 条，在报告对应行引用 id；引用不到写"原子库暂无实证"。可用 `python3 <本 skill 目录>/scripts/atoms-search "<关键词>" --skill xy-private-ops -k 5`（需 `XY_ATOMS=knowledge/atoms.jsonl`）。用户事实与原子冲突时以用户事实为准并标注冲突。
+本 skill 目录 `references/atoms.jsonl` 是原子库中标记为本 skill 的子集（2733 条）。Phase 2 每个检查项，按 type∈{case,anti-pattern,number,method} 与 topics（私域运营 / 流量获取 / 成交与话术）匹配检索 3–5 条，在报告对应行引用 id；引用不到写"原子库暂无实证"。可用 `python3 <本 skill 目录>/scripts/atoms-search.py "<关键词>" --skill xy-private-ops -k 5`（需 `XY_ATOMS=knowledge/atoms.jsonl`）。用户事实与原子冲突时以用户事实为准并标注冲突。
 
 ---
 

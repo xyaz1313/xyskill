@@ -1,6 +1,13 @@
 ---
 name: xy-atomize
-description: 把本地内容资产抽成 XY 原子入库——指定一个目录（文稿/逐字稿/推文/课件），按原子标准抽成 jsonl 写进 incoming/：先审计、抽 3 篇样本过用户确认、再批量、去重、验收，最后提示 build_atoms 入库。用户说「把这些稿子做成原子」「把我的逐字稿入库」「批量提炼观点」时使用。
+slug: xy-atomize
+version: 1.0.0
+displayName: 原子入库
+display_name: "原子入库"
+display_name_en: "原子入库"
+description_zh: "把本地内容资产抽成 XY 原子入库——指定一个目录（文稿/逐字稿/推文/课件），按原子标准抽成 jsonl 写进 incoming/：先审计、抽 3 篇样本过用户确认、再批量、去重、验收，最后提示 build_atoms 入库。用户说「把这些稿子做成原子」「把我的逐字稿入库」「批量提炼观点」时使用。"
+visibility: "public"
+description: 【原子入库】把本地内容资产抽成 XY 原子入库——指定一个目录（文稿/逐字稿/推文/课件），按原子标准抽成 jsonl 写进 incoming/：先审计、抽 3 篇样本过用户确认、再批量、去重、验收，最后提示 build_atoms 入库。用户说「把这些稿子做成原子」「把我的逐字稿入库」「批量提炼观点」时使用。
 ---
 
 # xy-atomize：本地文稿抽原子入库

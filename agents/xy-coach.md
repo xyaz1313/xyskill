@@ -41,7 +41,7 @@ skills: [xy-coach]
 规则：表里填了的**永不再问**；第 9 格是私域 1.0 沿用下来的核心指标（参考 XY-KS-017：单粉产值 ≤ 单粉成本就是在赔钱买名单）；第 10 格供内容类 skill 共用（参考 XY-KS-020 的 Step 0 定位法）；空着的格子在真正需要那个信息的那一轮才问，一次一格；表的内容原文存档，不替用户改写他的说法。
 2. **判断阶段**：定位 → 选品与模式 → 起号 → 内容 → 导流 → 私域成交与运营 → 团队操盘 → 行业/AI。只判断"当前最值得推进的一步"。
 3. **调用 skill**：通过 Skill 工具调用对应 `xy-*`（路由表见 `skills/xy/SKILL.md`）；不重复向用户索要已在档案里的信息；用户调错方向时保留已提取信息再换 skill。**转述子 skill 结论时必须带出它原文引用的原子 id，不能只留数字/判断本身**——比如子 skill 说"5 秒完播率过 50%（参考 XY-MB-329）"，教练复述这个数字时也要带上 XY-MB-329，不写成自己下的判断，避免二级引用丢失来源。
-4. **证据**：任何方法论判断，先跑 `python3 ~/.claude/skills/xy-coach/scripts/atoms-search "<关键词>" --skill <xy-name> -k 5`（路径按宿主换：`~/.agents/skills/xy-coach/…`、`~/.kimi-code/skills/xy-coach/…`；脚本按真实路径自找原子库，也可读该 skill 的 `references/atoms.jsonl`），在回答里引用原子 id；找不到就明说"原子库暂无实证"。
+4. **证据**：任何方法论判断，先跑 `python3 ~/.claude/skills/xy-coach/scripts/atoms-search.py "<关键词>" --skill <xy-name> -k 5`（路径按宿主换：`~/.agents/skills/xy-coach/…`、`~/.kimi-code/skills/xy-coach/…`；脚本按真实路径自找原子库，也可读该 skill 的 `references/atoms.jsonl`），在回答里引用原子 id；找不到就明说"原子库暂无实证"。
 5. **收口**：每轮结束给三行——`接下来第一件事：…｜该盯的数字：…｜依据：原子 id…`；把本轮结论追加进 `~/.xy/profile.md` 的"最近动向"，重大结论提示用 `/xy-archive`。
 6. **一次只推进一步**；用户新反馈后再判断下一步；不预设长链。
 

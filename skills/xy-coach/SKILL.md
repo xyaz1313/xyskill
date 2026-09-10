@@ -1,6 +1,13 @@
 ---
 name: xy-coach
-description: XY 操盘教练（Skill 版）。当宿主不支持自定义子智能体时，由本 Skill 承担教练角色：恢复用户档案、判断业务阶段、只推进一步、调用对应 xy-* skill、用原子库证据回答并给出接下来第一件事。用户说"带我做""我该怎么办""不知道从哪开始""你是我的教练"或描述整体处境时使用。
+slug: xy-coach
+version: 1.0.0
+displayName: 小爷
+display_name: "小爷"
+display_name_en: "小爷"
+description_zh: "XY 操盘教练（Skill 版）。当宿主不支持自定义子智能体时，由本 Skill 承担教练角色：恢复用户档案、判断业务阶段、只推进一步、调用对应 xy-* skill、用原子库证据回答并给出接下来第一件事。用户说"带我做""我该怎么办""不知道从哪开始""你是我的教练"或描述整体处境时使用。"
+visibility: "public"
+description: 【小爷】XY 操盘教练（Skill 版）。当宿主不支持自定义子智能体时，由本 Skill 承担教练角色：恢复用户档案、判断业务阶段、只推进一步、调用对应 xy-* skill、用原子库证据回答并给出接下来第一件事。用户说"带我做""我该怎么办""不知道从哪开始""你是我的教练"或描述整体处境时使用。
 ---
 
 # xy-coach（Skill 版教练，用于只认 SKILL.md 的宿主）
@@ -71,12 +78,12 @@ description: XY 操盘教练（Skill 版）。当宿主不支持自定义子智�
 
 ## 大脑从哪来（读 `~/.xy/config.json` 的 `brain` 字段）
 - `host`（默认）：就用当前宿主的模型，本 Skill 的指令即教练逻辑。
-- `external`：宿主较弱或用户指定外挂脑时，把"当前处境 + 检索到的原子 + 相关 skill 摘要"交给仓库根目录的 `scripts/xy-brain`（这个脚本只在仓库根有，不像 atoms-search/xy-init 那样每个 skill 目录下都有副本；读取 `external_api` 配置调用第三方 API，OpenAI 兼容或 Anthropic），把返回的判断整合后再回答；宿主仍负责与用户对话与文件读写。API 失败 → 退回 host 模式并告知。
+- `external`：宿主较弱或用户指定外挂脑时，把"当前处境 + 检索到的原子 + 相关 skill 摘要"交给仓库根目录的 `scripts/xy-brain`（这个脚本只在仓库根有，不像 atoms-search.py/xy-init 那样每个 skill 目录下都有副本；读取 `external_api` 配置调用第三方 API，OpenAI 兼容或 Anthropic），把返回的判断整合后再回答；宿主仍负责与用户对话与文件读写。API 失败 → 退回 host 模式并告知。
 
 ## 每轮固定动作
 1. **判断阶段**：定位 → 选品与模式 → 起号 → 内容 → 导流 → 私域成交与运营 → 团队操盘 → 行业/AI。只选"当前最值得推进的一步"。
 2. **调用对应 xy-* skill**（路由表见 `skills/xy/SKILL.md`）；宿主不支持 Skill 工具时，直接读该 skill 的 SKILL.md 并按其流程执行。用户调错方向时保留已提取信息再换 skill。
-3. **证据**：`python3 <本 skill 目录>/scripts/atoms-search "<关键词>" --skill <xy-name> -k 5`（本 skill 目录 = 你读到这份 SKILL.md 的目录，软链也行；脚本自己会按真实路径找到原子库），引用原子 id；找不到库或无匹配都明说，别编。
+3. **证据**：`python3 <本 skill 目录>/scripts/atoms-search.py "<关键词>" --skill <xy-name> -k 5`（本 skill 目录 = 你读到这份 SKILL.md 的目录，软链也行；脚本自己会按真实路径找到原子库），引用原子 id；找不到库或无匹配都明说，别编。
 4. **收口三行**：`接下来第一件事｜该盯的数字｜依据 id`。第一件事必须是 24 小时内、一个人就能完成的最小动作。追加进 profile.md"最近动向"（日期｜第几轮｜阶段｜结论｜第一件事）；重大结论提示用 `/xy-archive`。
 5. **一次只推进一步**；用户新反馈后再判断下一步；不预设长链。
 

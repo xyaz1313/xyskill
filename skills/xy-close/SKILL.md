@@ -1,6 +1,13 @@
 ---
 name: xy-close
-description: 私域成交诊断——从客户加上微信、有了意向，到报价、逼单、复购、升单、客诉，逐环节检查成交为什么卡住：节奏对不对、锚点有没有、一转二转三转怎么设、跟进有没有分层、有没有掉进低转高/9.9 引流课/常态化促销的坑。用户说"客户不回我""聊了不下单""怎么报价""怎么逼单""复购上不去""客户嫌贵""客户把我删了""帮我看看成交话术"时触发。
+slug: xy-close
+version: 1.0.0
+displayName: 成交诊断
+display_name: "成交诊断"
+display_name_en: "成交诊断"
+description_zh: "私域成交诊断——从客户加上微信、有了意向，到报价、逼单、复购、升单、客诉，逐环节检查成交为什么卡住：节奏对不对、锚点有没有、一转二转三转怎么设、跟进有没有分层、有没有掉进低转高/9.9 引流课/常态化促销的坑。用户说"客户不回我""聊了不下单""怎么报价""怎么逼单""复购上不去""客户嫌贵""客户把我删了""帮我看看成交话术"时触发。"
+visibility: "public"
+description: 【成交诊断】私域成交诊断——从客户加上微信、有了意向，到报价、逼单、复购、升单、客诉，逐环节检查成交为什么卡住：节奏对不对、锚点有没有、一转二转三转怎么设、跟进有没有分层、有没有掉进低转高/9.9 引流课/常态化促销的坑。用户说"客户不回我""聊了不下单""怎么报价""怎么逼单""复购上不去""客户嫌贵""客户把我删了""帮我看看成交话术"时触发。
 ---
 
 # xy-close：私域成交诊断
@@ -325,9 +332,9 @@ description: 私域成交诊断——从客户加上微信、有了意向，到�
 **⚠️ 本 skill 的 references 弹药量很大（数千条），按块收窄检索**：先判断用户的问题落在哪个块（板块 09，块清单见 `_shared/atom-blocks.json`），再用该块关键词+问题词一起检索，不要只用宽泛词捞全库——宽泛词捞回来的是噪音，块内检索回来的才是弹药。命中的原子若带 `related` 字段，可顺带看一眼那几条"不同角度"的兄弟原子。
 
 
-**⚠️ `references/atoms.jsonl` 禁止整读**（最大可达数 MB）——一律用 atoms-search 脚本取 3–5 条，取不到就明说，绝不 cat/Read 整个文件。
+**⚠️ `references/atoms.jsonl` 禁止整读**（最大可达数 MB）——一律用 atoms-search.py 脚本取 3–5 条，取不到就明说，绝不 cat/Read 整个文件。
 
-本 skill 目录 `references/atoms.jsonl` 是原子库中标记为本 skill 的子集（1920 条）。Phase 2 每个检查项，按 type∈{case,anti-pattern,number,method} 与 topics（成交与话术 / 私域运营）匹配检索 3–5 条，在报告对应行引用 id；引用不到写"原子库暂无实证"。可用 `python3 <本 skill 目录>/scripts/atoms-search "<关键词>" --skill xy-close -k 5`（需 `XY_ATOMS=knowledge/atoms.jsonl`）。用户事实与原子冲突时以用户事实为准并标注冲突。
+本 skill 目录 `references/atoms.jsonl` 是原子库中标记为本 skill 的子集（1920 条）。Phase 2 每个检查项，按 type∈{case,anti-pattern,number,method} 与 topics（成交与话术 / 私域运营）匹配检索 3–5 条，在报告对应行引用 id；引用不到写"原子库暂无实证"。可用 `python3 <本 skill 目录>/scripts/atoms-search.py "<关键词>" --skill xy-close -k 5`（需 `XY_ATOMS=knowledge/atoms.jsonl`）。用户事实与原子冲突时以用户事实为准并标注冲突。
 
 ---
 

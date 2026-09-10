@@ -1,6 +1,13 @@
 ---
 name: xy-archive
-description: |
+slug: xy-archive
+version: 1.0.0
+displayName: 存档
+display_name: "存档"
+display_name_en: "存档"
+description_zh: "把这一轮聊出来的结论、否掉的路、待验证的假设，写成一份本地存档，下次接着用；顺带管存档放在哪。用户说「这个结论留着」「存一下」「记下来」「保存这次诊断」「存档放哪」「换个存档位置」时用。"
+visibility: "public"
+description: 【存档】|
   把这一轮聊出来的结论、否掉的路、待验证的假设，写成一份本地存档，下次接着用；顺带管存档放在哪。用户说「这个结论留着」「存一下」「记下来」「保存这次诊断」「存档放哪」「换个存档位置」时用。
   Trigger: /xy-archive, "save this", "remember this", "where are my archives"
 ---
