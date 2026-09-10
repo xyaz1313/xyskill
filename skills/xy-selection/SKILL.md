@@ -1,7 +1,7 @@
 ---
 name: xy-selection
 slug: xy-selection
-version: 1.0.0
+version: 1.0.1
 displayName: 选品诊断
 display_name: "选品诊断"
 display_name_en: "选品诊断"

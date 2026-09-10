@@ -1,7 +1,7 @@
 ---
 name: xy-archive
 slug: xy-archive
-version: 1.0.0
+version: 1.0.1
 displayName: 存档
 display_name: "存档"
 display_name_en: "存档"

@@ -1,7 +1,7 @@
 ---
 name: xy-ops
 slug: xy-ops
-version: 1.0.0
+version: 1.0.1
 displayName: 操盘审查
 display_name: "操盘审查"
 display_name_en: "操盘审查"

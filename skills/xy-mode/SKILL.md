@@ -1,7 +1,7 @@
 ---
 name: xy-mode
 slug: xy-mode
-version: 1.0.0
+version: 1.0.1
 displayName: 模式审查
 display_name: "模式审查"
 display_name_en: "模式审查"

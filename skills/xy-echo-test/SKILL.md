@@ -1,7 +1,7 @@
 ---
 name: xy-echo-test
 slug: xy-echo-test
-version: 1.0.0
+version: 1.0.1
 displayName: 共鸣诊断
 display_name: "共鸣诊断"
 display_name_en: "共鸣诊断"

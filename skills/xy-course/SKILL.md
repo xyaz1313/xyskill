@@ -1,7 +1,7 @@
 ---
 name: xy-course
 slug: xy-course
-version: 1.0.0
+version: 1.0.1
 displayName: 交互式课程
 display_name: "交互式课程"
 display_name_en: "交互式课程"

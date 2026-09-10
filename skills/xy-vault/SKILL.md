@@ -1,7 +1,7 @@
 ---
 name: xy-vault
 slug: xy-vault
-version: 1.0.0
+version: 1.0.1
 displayName: 知识库
 display_name: "知识库"
 display_name_en: "知识库"

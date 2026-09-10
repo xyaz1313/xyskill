@@ -1,7 +1,7 @@
 ---
 name: xy-goal-card
 slug: xy-goal-card
-version: 1.0.0
+version: 1.0.1
 displayName: 目标卡
 display_name: "目标卡"
 display_name_en: "目标卡"

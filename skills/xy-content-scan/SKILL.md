@@ -1,7 +1,7 @@
 ---
 name: xy-content-scan
 slug: xy-content-scan
-version: 1.0.0
+version: 1.0.1
 displayName: 内容诊断
 display_name: "内容诊断"
 display_name_en: "内容诊断"

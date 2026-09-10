@@ -1,7 +1,7 @@
 ---
 name: xy-fde
 slug: xy-fde
-version: 1.0.0
+version: 1.0.1
 displayName: 企业AI落地顾问
 display_name: "企业AI落地顾问"
 display_name_en: "企业AI落地顾问"

@@ -1,7 +1,7 @@
 ---
 name: xy-coach
 slug: xy-coach
-version: 1.0.0
+version: 1.0.1
 displayName: 小爷
 display_name: "小爷"
 display_name_en: "小爷"

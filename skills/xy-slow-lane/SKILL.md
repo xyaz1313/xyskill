@@ -1,7 +1,7 @@
 ---
 name: xy-slow-lane
 slug: xy-slow-lane
-version: 1.0.0
+version: 1.0.1
 displayName: 慢就是快
 display_name: "慢就是快"
 display_name_en: "慢就是快"

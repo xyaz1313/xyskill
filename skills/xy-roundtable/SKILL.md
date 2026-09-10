@@ -1,7 +1,7 @@
 ---
 name: xy-roundtable
 slug: xy-roundtable
-version: 1.0.0
+version: 1.0.1
 displayName: 圆桌会议
 display_name: "圆桌会议"
 display_name_en: "圆桌会议"

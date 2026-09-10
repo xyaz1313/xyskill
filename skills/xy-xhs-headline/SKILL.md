@@ -1,7 +1,7 @@
 ---
 name: xy-xhs-headline
 slug: xy-xhs-headline
-version: 1.0.0
+version: 1.0.1
 displayName: 小红书标题
 display_name: "小红书标题"
 display_name_en: "小红书标题"

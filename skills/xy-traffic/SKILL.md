@@ -1,7 +1,7 @@
 ---
 name: xy-traffic
 slug: xy-traffic
-version: 1.0.0
+version: 1.0.1
 displayName: 导流诊断
 display_name: "导流诊断"
 display_name_en: "导流诊断"

@@ -1,7 +1,7 @@
 ---
 name: xy-resume
 slug: xy-resume
-version: 1.0.0
+version: 1.0.1
 displayName: 续上
 display_name: "续上"
 display_name_en: "续上"

@@ -1,7 +1,7 @@
 ---
 name: xy-brief
 slug: xy-brief
-version: 1.0.0
+version: 1.0.1
 displayName: 合成报告
 display_name: "合成报告"
 display_name_en: "合成报告"

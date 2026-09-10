@@ -1,7 +1,7 @@
 ---
 name: xy-sync
 slug: xy-sync
-version: 1.0.0
+version: 1.0.1
 displayName: 同步更新
 display_name: "同步更新"
 display_name_en: "同步更新"

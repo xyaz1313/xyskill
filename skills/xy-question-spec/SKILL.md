@@ -1,7 +1,7 @@
 ---
 name: xy-question-spec
 slug: xy-question-spec
-version: 1.0.0
+version: 1.0.1
 displayName: 问题说明书
 display_name: "问题说明书"
 display_name_en: "问题说明书"

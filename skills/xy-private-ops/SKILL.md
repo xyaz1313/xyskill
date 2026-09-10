@@ -1,7 +1,7 @@
 ---
 name: xy-private-ops
 slug: xy-private-ops
-version: 1.0.0
+version: 1.0.1
 displayName: 私域运营
 display_name: "私域运营"
 display_name_en: "私域运营"

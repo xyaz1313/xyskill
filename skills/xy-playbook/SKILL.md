@@ -1,7 +1,7 @@
 ---
 name: xy-playbook
 slug: xy-playbook
-version: 1.0.0
+version: 1.0.1
 displayName: 赛道打法
 display_name: "赛道打法"
 display_name_en: "赛道打法"

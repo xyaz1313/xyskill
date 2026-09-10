@@ -1,7 +1,7 @@
 ---
 name: xy-human-touch
 slug: xy-human-touch
-version: 1.0.0
+version: 1.0.1
 displayName: 去AI味
 display_name: "去AI味"
 display_name_en: "去AI味"

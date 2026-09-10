@@ -1,7 +1,7 @@
 ---
 name: xy-recut
 slug: xy-recut
-version: 1.0.0
+version: 1.0.1
 displayName: 长视频重排
 display_name: "长视频重排"
 display_name_en: "长视频重排"

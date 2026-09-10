@@ -1,7 +1,7 @@
 ---
 name: xy-ip
 slug: xy-ip
-version: 1.0.0
+version: 1.0.1
 displayName: 人设定位
 display_name: "人设定位"
 display_name_en: "人设定位"

@@ -1,7 +1,7 @@
 ---
 name: xy-atomize
 slug: xy-atomize
-version: 1.0.0
+version: 1.0.1
 displayName: 原子入库
 display_name: "原子入库"
 display_name_en: "原子入库"

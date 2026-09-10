@@ -1,7 +1,7 @@
 ---
 name: xy-close
 slug: xy-close
-version: 1.0.0
+version: 1.0.1
 displayName: 成交诊断
 display_name: "成交诊断"
 display_name_en: "成交诊断"

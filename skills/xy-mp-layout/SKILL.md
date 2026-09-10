@@ -1,7 +1,7 @@
 ---
 name: xy-mp-layout
 slug: xy-mp-layout
-version: 1.0.0
+version: 1.0.1
 displayName: 公众号排版
 display_name: "公众号排版"
 display_name_en: "公众号排版"

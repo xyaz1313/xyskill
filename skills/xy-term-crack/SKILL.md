@@ -1,7 +1,7 @@
 ---
 name: xy-term-crack
 slug: xy-term-crack
-version: 1.0.0
+version: 1.0.1
 displayName: 概念拆解
 display_name: "概念拆解"
 display_name_en: "概念拆解"

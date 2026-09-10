@@ -1,7 +1,7 @@
 ---
 name: xy
 slug: xy
-version: 1.0.0
+version: 1.0.1
 displayName: XY 操盘系统
 display_name: "XY 操盘系统"
 display_name_en: "XY 操盘系统"

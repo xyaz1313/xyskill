@@ -1,7 +1,7 @@
 ---
 name: xy-newbie
 slug: xy-newbie
-version: 1.0.0
+version: 1.0.1
 displayName: 新人起步
 display_name: "新人起步"
 display_name_en: "新人起步"

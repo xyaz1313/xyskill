@@ -1,7 +1,7 @@
 ---
 name: xy-script-glue
 slug: xy-script-glue
-version: 1.0.0
+version: 1.0.1
 displayName: 逐字稿衔接
 display_name: "逐字稿衔接"
 display_name_en: "逐字稿衔接"

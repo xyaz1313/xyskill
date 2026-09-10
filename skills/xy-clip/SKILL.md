@@ -1,7 +1,7 @@
 ---
 name: xy-clip
 slug: xy-clip
-version: 1.0.0
+version: 1.0.1
 displayName: 长内容切片
 display_name: "长内容切片"
 display_name_en: "长内容切片"

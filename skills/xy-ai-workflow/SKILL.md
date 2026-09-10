@@ -1,7 +1,7 @@
 ---
 name: xy-ai-workflow
 slug: xy-ai-workflow
-version: 1.0.0
+version: 1.0.1
 displayName: AI流水线
 display_name: "AI流水线"
 display_name_en: "AI流水线"

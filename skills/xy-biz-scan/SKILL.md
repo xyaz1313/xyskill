@@ -1,7 +1,7 @@
 ---
 name: xy-biz-scan
 slug: xy-biz-scan
-version: 1.0.0
+version: 1.0.1
 displayName: 商业诊断
 display_name: "商业诊断"
 display_name_en: "商业诊断"

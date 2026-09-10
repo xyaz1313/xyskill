@@ -1,7 +1,7 @@
 ---
 name: xy-skill-audit
 slug: xy-skill-audit
-version: 1.0.0
+version: 1.0.1
 displayName: 技能安检
 display_name: "技能安检"
 display_name_en: "技能安检"

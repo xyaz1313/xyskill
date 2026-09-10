@@ -1,7 +1,7 @@
 ---
 name: xy-idea-desk
 slug: xy-idea-desk
-version: 1.0.0
+version: 1.0.1
 displayName: 想法工作台
 display_name: "想法工作台"
 display_name_en: "想法工作台"

@@ -1,7 +1,7 @@
 ---
 name: xy-publish-guard
 slug: xy-publish-guard
-version: 1.0.0
+version: 1.0.1
 displayName: 发布排雷
 display_name: "发布排雷"
 display_name_en: "发布排雷"

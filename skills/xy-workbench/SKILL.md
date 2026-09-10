@@ -1,7 +1,7 @@
 ---
 name: xy-workbench
 slug: xy-workbench
-version: 1.0.0
+version: 1.0.1
 displayName: 工作台
 display_name: "工作台"
 display_name_en: "工作台"
