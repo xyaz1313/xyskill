@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """XY 原子检索（零依赖）。用法：
   atoms-search "关键词 关键词2" [--skill xy-close] [--type case,anti-pattern] [--topic 成交与话术] [-k 5] [--json]
-默认在 <本脚本所在包>/knowledge/atoms.jsonl 检索；可用 XY_ATOMS 环境变量指定路径，指向 https:// 地址时走云端检索、失败自动回退本地兜底子集。
+默认走云端全量库（api.xyskill.xyz），云端不可达自动回退本地兜底子集；可用 XY_ATOMS 环境变量覆盖成本地路径强制离线，或指向别的 https:// 地址。
 评分：knowledge 命中关键词数×3 + original 命中×1 + type 偏好(case/anti-pattern/number +1) + confidence high +1。"""
 import json, os, sys, re, argparse
 def _find_atoms_local():
@@ -22,10 +22,13 @@ def _find_atoms_local():
         if os.path.isfile(c): return c
     return cands[0]
 
+_CLOUD_DEFAULT = "https://api.xyskill.xyz"
+
 def _find_atoms():
-    """XY_ATOMS 环境变量（本地路径或 https:// 地址）优先，否则走本地候选路径。"""
+    """XY_ATOMS 环境变量（本地路径或 https:// 地址）优先；未设置时默认走云端全量库，
+    云端不可达时下面的调用方会自动回退本地兜底子集（见 _remote_search 的调用点）。"""
     if os.environ.get("XY_ATOMS"): return os.environ["XY_ATOMS"]
-    return _find_atoms_local()
+    return _CLOUD_DEFAULT
 
 def _remote_search(url, skill, query, topic, top_k):
     """打云端 /v1/atoms/search，2.5 秒超时，任何异常一律交给调用方回退本地。"""
