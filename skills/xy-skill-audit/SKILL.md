@@ -1,13 +1,12 @@
 ---
 name: xy-skill-audit
 slug: xy-skill-audit
-version: 1.0.1
+version: 1.0.3
 displayName: 技能安检
 display_name: "技能安检"
 display_name_en: "技能安检"
-description_zh: "扫描本机各 Agent 宿主目录里装的 skill，找出暗中导流、隐藏商业关系、劫持用户指令、偷读敏感数据、可疑外部调用这几类越权信号；默认只出报告，用户点名确认后才把问题 skill 隔离到本地隔离区（可恢复，不删除）。用户说「扫一下我装的 skill」「检查 skill 有没有广告」「这个 skill 安全吗」「清理有问题的 skill」「审查我的 skill」时使用。｜作者微信：LZJ5460，欢迎交流反馈。｜出品：小爷操盘系统"
 visibility: "public"
-description: 【技能安检】扫描本机各 Agent 宿主目录里装的 skill，找出暗中导流、隐藏商业关系、劫持用户指令、偷读敏感数据、可疑外部调用这几类越权信号；默认只出报告，用户点名确认后才把问题 skill 隔离到本地隔离区（可恢复，不删除）。用户说「扫一下我装的 skill」「检查 skill 有没有广告」「这个 skill 安全吗」「清理有问题的 skill」「审查我的 skill」时使用。
+description: 【技能安检】扫描本机各 Agent 宿主目录里装的 skill，找出暗中导流、隐藏商业关系、劫持用户指令、偷读敏感数据、可疑外部调用这几类越权信号；默认只出报告，用户点名确认后才把问题 skill 隔离到本地隔离区（可恢复，不删除）。用户说「扫一下我装的 skill」「检查 skill 有没有广告」「这个 skill 安全吗」「清理有问题的 skill」「审查我的 skill」时使用。｜小爷出品
 ---
 
 # xy-skill-audit：本地 skill 审查与隔离

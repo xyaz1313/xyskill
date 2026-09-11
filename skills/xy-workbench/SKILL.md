@@ -1,13 +1,12 @@
 ---
 name: xy-workbench
 slug: xy-workbench
-version: 1.0.1
+version: 1.0.3
 displayName: 工作台
 display_name: "工作台"
 display_name_en: "工作台"
-description_zh: "把一个项目整理成 Claude Code / Codex / Grok / 通用 Agents（~/.agents/skills）多端一致、能长期维护的 Agent 工作台：审规则文件（CLAUDE.md / AGENTS.md）、认 skill 真源、统一命名、生成桥接、逐项验证。用户说「迁移到 Codex」「迁到 Claude Code」「Grok 也要能用」「统一 AGENTS.md」「我的 Agent 工作台很乱」「skill 散在好几个地方」「帮我把 Claude 和 Codex 和豆包打通」时使用。｜作者微信：LZJ5460，欢迎交流反馈。｜出品：小爷操盘系统"
 visibility: "public"
-description: 【工作台】把一个项目整理成 Claude Code / Codex / Grok / 通用 Agents（~/.agents/skills）多端一致、能长期维护的 Agent 工作台：审规则文件（CLAUDE.md / AGENTS.md）、认 skill 真源、统一命名、生成桥接、逐项验证。用户说「迁移到 Codex」「迁到 Claude Code」「Grok 也要能用」「统一 AGENTS.md」「我的 Agent 工作台很乱」「skill 散在好几个地方」「帮我把 Claude 和 Codex 和豆包打通」时使用。
+description: 【工作台】把一个项目整理成 Claude Code / Codex / Grok / 通用 Agents（~/.agents/skills）多端一致、能长期维护的 Agent 工作台：审规则文件（CLAUDE.md / AGENTS.md）、认 skill 真源、统一命名、生成桥接、逐项验证。用户说「迁移到 Codex」「迁到 Claude Code」「Grok 也要能用」「统一 AGENTS.md」「我的 Agent 工作台很乱」「skill 散在好几个地方」「帮我把 Claude 和 Codex 和豆包打通」时使用。｜小爷出品
 ---
 
 # xy-workbench：Agent 工作台迁移
