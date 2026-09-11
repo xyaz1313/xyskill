@@ -86,7 +86,10 @@ cmd_check_remote() {
   if [[ -f "$stamp" ]] && (( now - $(cat "$stamp" 2>/dev/null || echo 0) < 86400 )); then exit 0; fi
   echo "$now" > "$stamp" 2>/dev/null || true
   local_ver="$(cat "$ROOT/VERSION" 2>/dev/null | tr -d '[:space:]')"
-  read -r remote_ver notice < <(curl -fsSL --max-time 5 "$url" 2>/dev/null | python3 -c 'import json,sys;d=json.load(sys.stdin);print(d.get("version",""),d.get("notice",""))' 2>/dev/null) || exit 0
+  local remote_json
+  remote_json="$(curl -fsSL --max-time 5 "$url" 2>/dev/null)" || exit 0
+  [[ -n "$remote_json" ]] || exit 0
+  read -r remote_ver notice < <(printf '%s' "$remote_json" | python3 -c 'import json,sys;d=json.load(sys.stdin);print(d.get("version",""),d.get("notice",""))' 2>/dev/null) || exit 0
   [[ -n "$remote_ver" && -n "$local_ver" ]] || exit 0
   # 只在远端**严格更高**时才提醒：开发机版本领先线上时不能弹假警报（假警报比没警报更糟——
   # 第一次看见错的提示之后，用户会连真提醒一起无视）。逐段比较，不做字符串比较。
