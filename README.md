@@ -4,7 +4,7 @@
 
 > 面向老板与创业者的商业中文 AI Skills 工具箱。从定位、选品、内容、流量、私域、成交，到商业模式与团队管理——把生意里任何一段的真实问题交给 Agent，获得有依据的判断和马上能做的下一步。
 
-![Version](https://img.shields.io/badge/version-2.7.0-2e6b4f.svg?style=flat-square)
+![Version](https://img.shields.io/badge/version-2.7.1-2e6b4f.svg?style=flat-square)
 ![License](https://img.shields.io/badge/license-CC%20BY--NC%204.0-c6ff00.svg?style=flat-square)
 
 **支持：Claude Code、Codex、豆包、WorkBuddy，以及其他支持 Skills 的 Agent。**
@@ -67,7 +67,7 @@
 | 企业AI落地顾问 | `/xy-fde` | 标品/定制判断、报价模式、组织推进阻力应对 |
 | 选品与供应链 | `/xy-selection` | 两轴分类、成本核算、收费测试方案 |
 | IP 与定位 | `/xy-ip` `/xy-goal-card` | 七项定位标准、可开工的目标卡 |
-| 内容创作 | `/xy-content-scan` `/xy-opener` `/xy-script-glue` `/xy-human-touch` | 五维诊断、开头候选、衔接检查、去 AI 味 |
+| 内容创作 | `/xy-content-scan` `/xy-opener` `/xy-script-glue` `/xy-human-touch` `/xy-replica` | 五维诊断、开头候选、衔接检查、去 AI 味、爆款素材复刻 |
 | 标题与传播 | `/xy-xhs-headline` `/xy-echo-test` | 标题 Top 3、共鸣机制解码 |
 | 流量与导流 | `/xy-traffic` `/xy-peer-pick` | 起号与导流路径、对标筛选 |
 | 长内容剪辑 | `/xy-clip` `/xy-recut` | 逐字稿切成短视频组装方案、长视频删减重排 |

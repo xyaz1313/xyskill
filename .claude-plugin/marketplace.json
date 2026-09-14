@@ -5,15 +5,15 @@
   },
   "metadata": {
     "description": "XY 商业与私域操盘系统（私域为主体）",
-    "version": "2.7.0"
+    "version": "2.7.1"
   },
   "plugins": [
     {
       "name": "xy",
-      "description": "XY 商业与私域操盘系统（私域为主体，流量与 AI 为私域自带能力）：43 个正式 Skill + 教练智能体 xy-coach，由 /xy 主入口按业务阶段路由。",
+      "description": "XY 商业与私域操盘系统（私域为主体，流量与 AI 为私域自带能力）：45 个正式 Skill + 教练智能体 xy-coach，由 /xy 主入口按业务阶段路由。",
       "source": "./",
       "strict": true,
-      "version": "2.7.0",
+      "version": "2.7.1",
       "category": "router",
       "keywords": [
         "private-domain",
@@ -368,7 +368,7 @@
       "source": "./skills/xy-replica",
       "strict": true,
       "version": "2.7.0",
-      "category": "other",
+      "category": "content",
       "keywords": [
         "chinese"
       ]

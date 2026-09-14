@@ -67,7 +67,7 @@ One skill at a time. Each round's conclusion becomes the input for the next roun
 | Enterprise AI consulting | `/xy-fde` | Off-the-shelf vs. custom calls, pricing models, org-adoption resistance |
 | Product selection & supply chain | `/xy-selection` | Two-axis classification, cost accounting, paid-test plan |
 | IP & positioning | `/xy-ip` `/xy-goal-card` | Seven positioning criteria, an executable goal card |
-| Content creation | `/xy-content-scan` `/xy-opener` `/xy-script-glue` `/xy-human-touch` | Five-dimension diagnosis, opening-line candidates, flow check, de-AI-flavor pass |
+| Content creation | `/xy-content-scan` `/xy-opener` `/xy-script-glue` `/xy-human-touch` `/xy-replica` | Five-dimension diagnosis, opening-line candidates, flow check, de-AI-flavor pass, viral-content replication |
 | Titles & distribution | `/xy-xhs-headline` `/xy-echo-test` | Top-3 titles, resonance-mechanism breakdown |
 | Traffic & lead-gen | `/xy-traffic` `/xy-peer-pick` | Account-warmup & lead-gen path, benchmark screening |
 | Long-form editing | `/xy-clip` `/xy-recut` | Turn a transcript into short-video segments, or trim/reorder a long video |
