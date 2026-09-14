@@ -4,7 +4,7 @@
 
 > 面向老板与创业者的商业中文 AI Skills 工具箱。从定位、选品、内容、流量、私域、成交，到商业模式与团队管理——把生意里任何一段的真实问题交给 Agent，获得有依据的判断和马上能做的下一步。
 
-![Version](https://img.shields.io/badge/version-2.7.1-2e6b4f.svg?style=flat-square)
+![Version](https://img.shields.io/badge/version-2.7.2-2e6b4f.svg?style=flat-square)
 ![License](https://img.shields.io/badge/license-CC%20BY--NC%204.0-c6ff00.svg?style=flat-square)
 
 **支持：Claude Code、Codex、豆包、WorkBuddy，以及其他支持 Skills 的 Agent。**
