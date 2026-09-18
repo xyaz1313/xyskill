@@ -6,7 +6,7 @@
 >
 > 本体论/FDE 这条线不是讲 PPT：六步建模法真跑在自己 27,966 条知识原子和一个真实客户系统上，跑出 **333 个概念节点**，还找了另一个独立 AI 逐句核对结果、挑出真错误改了才发布——过程和结论全部公开，见 [`xy-ontology`](skills/xy-ontology/SKILL.md)。
 
-![Version](https://img.shields.io/badge/version-2.8.0-2e6b4f.svg?style=flat-square)
+![Version](https://img.shields.io/badge/version-2.9.0-2e6b4f.svg?style=flat-square)
 ![License](https://img.shields.io/badge/license-CC%20BY--NC%204.0-c6ff00.svg?style=flat-square)
 
 **支持：Claude Code、Codex、豆包、WorkBuddy，以及其他支持 Skills 的 Agent。**
