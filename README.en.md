@@ -141,6 +141,28 @@ Use the full `https://` URL, not the `owner/repo` shorthand — the shorthand fa
 
 Chinese is the system's native tongue, but it follows the language you use — ask in English, get English back.
 
+## Where the atoms come from
+
+`knowledge/atoms.jsonl` holds 27,966 knowledge atoms, tagged across 15 topics and 94 sub-blocks; every atom stands on its own and links back to others. Four sources: the author's own practice (his course system, real account and livestream retrospectives, a decade-plus of founding businesses — anything with real numbers is marked `high` confidence); business-management and negotiation methodology (all rewritten into business-scenario language before entering the library); the current rules of the four major platforms (Douyin, Xiaohongshu, WeChat, Channels); and methodology from third-party paid bootcamps (speaker and student names anonymized, specific case passages excluded, only reusable judgments and methods kept). In retrieval ranking, first-hand practice always comes first.
+
+## Repository layout
+
+| Path | What lives there |
+| --- | --- |
+| `skills/` | Source of truth for all 46 Skills |
+| `agents/xy-coach.md` | The coach agent |
+| `_shared/` | 9 core beliefs, voice red lines, routing contract, board map |
+| `knowledge/` | The atom library (`_internal/` is raw material, never distributed) |
+| `scripts/` | atoms-search.py retrieval, xy-init, xy-brain |
+| `docs/` | Getting started, command list, host compatibility matrix |
+| `hooks/` | Session-start hooks |
+
+## Making changes
+
+- To change a Skill: edit only `skills/<name>/SKILL.md`; `references/atoms.jsonl` is that Skill's local fallback subset for when it is copied out of the repo on its own — update it alongside.
+- To add atoms: append to `knowledge/atoms.jsonl` (fields as existing: id/type/knowledge/original/confidence/topics/skills/source_type/source_label), and sync them into the relevant Skill's `references/atoms.jsonl`.
+- To cut a release: bump `version` and `notice` in `UPDATE.json`, then tag it in git.
+
 ## Disclaimer
 
 What this system gives you is business judgment and self-check paths grounded in its knowledge base — **not legal, tax, medical, or investment advice**. For anything touching business-model compliance, tax arrangements, advertising claims, or employment contracts, defer to a licensed lawyer or tax professional; for product efficacy claims, defer to tests and approvals recognized by the relevant regulator. Decisions you make with this system are your own responsibility.
