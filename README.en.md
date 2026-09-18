@@ -141,6 +141,10 @@ Use the full `https://` URL, not the `owner/repo` shorthand — the shorthand fa
 
 Chinese is the system's native tongue, but it follows the language you use — ask in English, get English back.
 
+## Disclaimer
+
+What this system gives you is business judgment and self-check paths grounded in its knowledge base — **not legal, tax, medical, or investment advice**. For anything touching business-model compliance, tax arrangements, advertising claims, or employment contracts, defer to a licensed lawyer or tax professional; for product efficacy claims, defer to tests and approvals recognized by the relevant regulator. Decisions you make with this system are your own responsibility.
+
 ## License
 
 This repo is licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) (see `LICENSE`):

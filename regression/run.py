@@ -44,6 +44,10 @@ def load_cases(kind=None):
 
 
 def cmd_check(args):
+    if not os.path.isfile(os.path.join(KN, "atoms.jsonl")):
+        print(f"check 需要 XY 自己的知识库（{KN}/atoms.jsonl），这是 XY 内部数据漂移质检，不是 G-1 闸门流程的一部分；"
+              "企业工程只用 emit / score 两个命令。")
+        return 2
     atoms = {a["id"]: a for a in load_jsonl(os.path.join(KN, "atoms.jsonl"))}
     concepts = {c["id"]: c for c in load_jsonl(os.path.join(KN, "concepts.jsonl"))}
     drift = []
