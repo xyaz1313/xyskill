@@ -228,6 +228,111 @@ def lint_concepts(cpath, atoms_path, profile, max_summary=450):
     return {"total": len(concepts), "issues": issues, "warnings": warnings}
 
 
+def _workspace(atoms_path):
+    return os.path.dirname(os.path.dirname(os.path.abspath(atoms_path)))
+
+
+def lint_actions(actions_dir, profile, registry_path):
+    """G7 进入条件：ontology/actions/*.json 逐个校验。
+    entity_class 必须是本体里的 Class（profile.entity_classes，缺省取 state_fields 的键）；state_field 必须在
+    profile.state_fields[entity_class] 里声明；rules 必须能在规则注册表（scaffold.export_registry 导出的 registry.json）里找到，
+    且规则依据的字段也必须是声明过的状态字段；actor_roles ⊆ profile.roles；迁移表非空且无自迁移；reversible 的动作要有 inverse_action 且存在。"""
+    issues, warnings = [], []
+    profile = profile or {}
+    state_fields = profile.get("state_fields") or {}
+    classes = set(profile.get("entity_classes") or []) | set(state_fields)
+    roles = set(profile.get("roles") or [])
+    registry = {}
+    if registry_path and os.path.isfile(registry_path):
+        try:
+            registry = {r["id"]: r for r in json.load(open(registry_path, encoding="utf-8"))}
+        except Exception as e:
+            issues.append(("registry", None, f"规则注册表解析失败: {e}"))
+    else:
+        issues.append(("registry", None, f"规则注册表不存在: {registry_path}（用 scaffold.export_registry 导出）"))
+    files = sorted(glob_json(actions_dir))
+    if not files:
+        warnings.append((actions_dir, None, "没有任何 Action 定义文件"))
+    ids = {}
+    specs = {}
+    for p in files:
+        try:
+            d = json.load(open(p, encoding="utf-8"))
+        except Exception as e:
+            issues.append((p, None, f"JSON 解析失败: {e}")); continue
+        aid = d.get("id")
+        specs[aid] = d
+        for k in ("id", "name", "entity_class", "entity_param", "state_field", "allowed_transitions", "actor_roles", "rules"):
+            if k not in d:
+                issues.append((p, aid, f"缺字段 {k}"))
+        if aid in ids:
+            issues.append((p, aid, f"id 与 {ids[aid]} 重复"))
+        ids[aid] = p
+        ec, sf = d.get("entity_class"), d.get("state_field")
+        if ec not in classes:
+            issues.append((p, aid, f"entity_class {ec!r} 不是本体里的 Class（profile.entity_classes / state_fields 的键）"))
+        elif sf not in (state_fields.get(ec) or {}):
+            issues.append((p, aid, f"state_field {sf!r} 未在 profile.state_fields[{ec!r}] 里声明"))
+        for r in d.get("rules") or []:
+            if r not in registry:
+                issues.append((p, aid, f"规则 {r!r} 不在注册表里")); continue
+            for ent_param, fld in registry[r].get("needs") or []:
+                if ent_param == d.get("entity_param"):
+                    if fld not in (state_fields.get(ec) or {}):
+                        issues.append((p, aid, f"规则 {r} 依据的字段 {fld!r} 未在 state_fields[{ec!r}] 声明"))
+                else:
+                    warnings.append((p, aid, f"规则 {r} 依据的实体参数 {ent_param!r} 不是本动作的 entity_param，无法核对字段声明"))
+            if registry[r].get("allow_snapshot"):
+                issues.append((p, aid, f"规则 {r} allow_snapshot=true：G7 v1 不允许用快照事实"))
+        if roles and not set(d.get("actor_roles") or []) <= roles:
+            issues.append((p, aid, f"actor_roles {d.get('actor_roles')} 不在 profile.roles 内"))
+        tr = d.get("allowed_transitions") or []
+        if not tr:
+            issues.append((p, aid, "allowed_transitions 为空"))
+        for t in tr:
+            if not (isinstance(t, list) and len(t) == 2):
+                issues.append((p, aid, f"迁移项格式错: {t!r}"))
+            elif t[0] == t[1]:
+                issues.append((p, aid, f"自迁移 {t[0]!r}→{t[1]!r} 无意义"))
+        if d.get("reversible") and not d.get("inverse_action"):
+            issues.append((p, aid, "reversible=true 但没有 inverse_action"))
+    for aid, d in specs.items():
+        inv = d.get("inverse_action")
+        if inv and inv not in specs:
+            warnings.append((ids[aid], aid, f"inverse_action {inv!r} 不在本目录的 Action 定义里"))
+        if not d.get("reversible"):
+            warnings.append((ids[aid], aid, "不可逆动作：G7 出闸标准要求第一批动作全部可逆"))
+    return {"files": len(files), "issues": issues, "warnings": warnings}
+
+
+def glob_json(d):
+    import glob as _g
+    return _g.glob(os.path.join(d, "*.json")) if d and os.path.isdir(d) else []
+
+
+def lint_context(context_dir, blocklist):
+    """事件账本的来源名单检查：actor / evidence / value(字符串) 命中名单即违规。"""
+    import glob as _g
+    issues = []
+    n = 0
+    files = sorted(_g.glob(os.path.join(context_dir, "events-*.jsonl"))) if context_dir and os.path.isdir(context_dir) else []
+    for p in files:
+        for lineno, line in enumerate(open(p, encoding="utf-8"), 1):
+            if not line.strip():
+                continue
+            n += 1
+            try:
+                ev = json.loads(line)
+            except Exception as e:
+                issues.append((f"{os.path.basename(p)}:{lineno}", None, f"JSON 解析失败: {e}")); continue
+            text = " ".join([str(ev.get("actor") or ""), json.dumps(ev.get("evidence") or {}, ensure_ascii=False),
+                             ev.get("value") if isinstance(ev.get("value"), str) else ""])
+            for nm in blocklist:
+                if nm in text:
+                    issues.append((f"{os.path.basename(p)}:{lineno}", ev.get("event_id"), f"事件命中来源名单: {nm!r}"))
+    return {"files": len(files), "events": n, "issues": issues}
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--file", default=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "knowledge", "atoms.jsonl"))
@@ -237,10 +342,23 @@ if __name__ == "__main__":
     ap.add_argument("--max-print", type=int, default=30)
     ap.add_argument("--concepts", nargs="?", const="auto", help="同时校验 concepts.jsonl（不给路径则取 atoms 同目录）")
     ap.add_argument("--warn", action="store_true", help="打印软规则警告清单")
+    ap.add_argument("--actions", nargs="?", const="auto", help="G7：校验 Action 定义目录（默认 <工作区>/ontology/actions）")
+    ap.add_argument("--registry", help="规则注册表 json（默认 <工作区>/ontology/rules/registry.json）")
+    ap.add_argument("--context", nargs="?", const="auto", help="事件账本目录做来源名单检查（默认 <工作区>/ontology/context）")
     args = ap.parse_args()
 
     profile, profile_path = load_profile(args.file, args.profile)
     result = lint(args.file, profile, profile_path, args.sources_dir, args.window)
+    ws = _workspace(args.file)
+    actions_result = context_result = None
+    if args.actions:
+        adir = os.path.join(ws, "ontology", "actions") if args.actions == "auto" else args.actions
+        reg = args.registry or os.path.join(ws, "ontology", "rules", "registry.json")
+        actions_result = lint_actions(adir, profile, reg)
+    if args.context:
+        cdir = os.path.join(ws, "ontology", "context") if args.context == "auto" else args.context
+        bl, _ = load_blocklist(profile, profile_path)
+        context_result = lint_context(cdir, bl)
     concept_result = None
     if args.concepts:
         cpath = os.path.join(os.path.dirname(os.path.abspath(args.file)), "concepts.jsonl") if args.concepts == "auto" else args.concepts
@@ -272,5 +390,18 @@ if __name__ == "__main__":
             for i, cid, msg in concept_result["warnings"][: args.max_print]:
                 print(f"  节点{i} [{cid}] {msg}")
         failed = failed or bool(concept_result["issues"])
+    if actions_result:
+        print(f"\nactions: {actions_result['files']} 个定义，违规 {len(actions_result['issues'])}，软警告 {len(actions_result['warnings'])}")
+        for p, aid, msg in actions_result["issues"][: args.max_print]:
+            print(f"  {os.path.basename(str(p))} [{aid}] {msg}")
+        if args.warn:
+            for p, aid, msg in actions_result["warnings"][: args.max_print]:
+                print(f"  {os.path.basename(str(p))} [{aid}] {msg}")
+        failed = failed or bool(actions_result["issues"])
+    if context_result:
+        print(f"\ncontext: {context_result['files']} 个分片 {context_result['events']} 条事件，命中来源名单 {len(context_result['issues'])}")
+        for loc, eid, msg in context_result["issues"][: args.max_print]:
+            print(f"  {loc} [{eid}] {msg}")
+        failed = failed or bool(context_result["issues"])
 
     sys.exit(1 if failed else 0)
