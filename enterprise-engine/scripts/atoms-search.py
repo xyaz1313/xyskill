@@ -70,7 +70,7 @@ if a.remote:
     sys.exit(0)
 
 _IDF = _load_json_next_to(a.file, "idf.json")
-_PROFILE = _load_json_next_to(a.file, "profile.json")
+_PROFILE = _load_json_next_to(a.file, "profile.json") or _load_json_next_to(os.path.join(os.path.dirname(os.path.abspath(a.file)), "..", "ontology", "x"), "profile.json")
 _PREFERRED = set(_PROFILE.get("preferred_source_types") or [])
 
 kws = [w for w in re.split(r"[\s,，、/]+", a.query) if w]

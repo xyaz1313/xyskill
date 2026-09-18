@@ -19,7 +19,7 @@
 | `id` | `slug` | 节点唯一id，格式`CPT-<topic缩写>-<序号>`，如`CPT-SY-001`（私域运营） |
 | `title` | `slug`（人类可读部分） | 节点标题，要具体可操作，不要口号化 |
 | `aliases` | `aliases` | 同一概念的别名/近义表达，供去重判断用 |
-| `summary` | 页面正文 | 一段话说清这个概念是什么，从证据原子归纳，不超过200字 |
+| `summary` | 页面正文 | 一段话说清这个概念是什么，从证据原子归纳。目标 ≤200 字；2026-09-18 收官审查实测 309 个节点里 182 个超过 200 字（最长 415），是 HANDOFF-2 在"覆盖 12 个 topic"与"逐条精修"之间取舍的结果，**当前按 ≤450 字硬上限、≤200 字建议值执行**，超 200 字的节点列在 `docs/reports/final-audit-2026-09-18.md`，留给后续二次细分 |
 | `evidence_atom_ids` | `source_refs`/`chunk_refs` | 支撑这个节点的原子id列表，这是节点与原子之间的边 |
 | `related_concepts` | `in_links`/`out_links` | 节点与节点之间的边，结构复用atoms.jsonl已有的`related`格式：`[{"id":..., "rel":...}]`，5种rel枚举不变（我们这块已经比WeKnora的无类型链接更细，不需要改） |
 | `category` | `parent_slug`+目录层级 | 归属的topic（13个固定值之一），以及可选的`possible_parent`（疑似更大概念节点的id，留给人工/后续确认，不强制建父子关系） |

@@ -20,10 +20,13 @@ DEFAULT_ID_PATTERN = r"^[A-Z0-9]+-[A-Z0-9-]+[a-z]?$"  # 允许 RZP-020b 这类�
 
 
 def load_profile(atoms_path, explicit=None):
-    cand = explicit or os.path.join(os.path.dirname(os.path.abspath(atoms_path)), "profile.json")
-    if os.path.isfile(cand):
-        with open(cand, encoding="utf-8") as f:
-            return json.load(f), cand
+    """画像查找顺序：--profile 显式 > atoms 同目录 profile.json（XY 布局）> 工作区 ontology/profile.json（企业布局）。"""
+    kn = os.path.dirname(os.path.abspath(atoms_path))
+    cands = [explicit] if explicit else [os.path.join(kn, "profile.json"), os.path.join(os.path.dirname(kn), "ontology", "profile.json")]
+    for cand in cands:
+        if cand and os.path.isfile(cand):
+            with open(cand, encoding="utf-8") as f:
+                return json.load(f), cand
     if explicit:
         raise SystemExit(f"profile 不存在: {explicit}")
     return None, None

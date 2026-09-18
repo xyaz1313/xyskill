@@ -18,8 +18,13 @@
 """
 import sys, os, re, json, difflib, argparse
 
-ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-TOPICS = ["私域运营", "流量获取", "选品逻辑", "IP人设", "团队与模式设计", "认知与心态", "内容创作与平台", "商业案例与实战复盘", "合规与风控", "新人起步方法论", "成交与话术", "AI与工具", "中国市场与下沉"]
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))
+TOPICS = ["私域运营", "流量获取", "选品逻辑", "IP人设", "团队与模式设计", "认知与心态", "内容创作与平台", "商业案例与实战复盘", "合规与风控", "新人起步方法论", "成交与话术", "AI与工具", "中国市场与下沉", "通用商业管理", "本体论与FDE方法论"]
+try:  # topics 以 knowledge/profile.json 为准（2026-09-18 起），上面的列表只是找不到画像时的兜底
+    _prof = json.load(open(os.path.join(ROOT, "knowledge", "profile.json"), encoding="utf-8"))
+    if _prof.get("topics"): TOPICS = list(_prof["topics"])
+except Exception:
+    pass
 TYPES = {"definition", "principle", "method", "case", "anti-pattern", "insight", "number"}
 CONF = {"high", "medium"}
 ID_RE = re.compile(r"^XY-U[A-Z]{2,3}-\d{3}$")

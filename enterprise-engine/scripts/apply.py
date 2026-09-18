@@ -51,11 +51,19 @@ def main():
     decisions = {d["id"]: d for d in load_jsonl(a.decisions)} if a.decisions else {}
     now = time.strftime("%Y-%m-%dT%H:%M:%S")
     revisions, precedents, applied, held = [], [], [], []
+    unknown = [d for d in decisions if d not in props]
+    if unknown:
+        print(f"警告：decisions 里 {len(unknown)} 个 id 不在提案文件里，已忽略：{unknown[:5]}", file=sys.stderr)
+    if not props:
+        print("提案文件为空，无事可做"); return 0
+    packet = os.path.basename(a.proposals)
+    rp = os.path.join(ws, "ontology", "rules", "precedents.jsonl")
+    done = {(r.get("packet"), r["proposal_id"]) for r in load_jsonl(rp)}  # 同一提案包里同一提案只处理一次，重复 apply 幂等
 
     def bump(c, reason, source, ref):
         revisions.append({"concept_id": c["id"], "version": c.get("version", 1) + 1, "timestamp": now, "edit_source": source,
                           "prev_summary": c.get("summary"), "prev_evidence_atom_ids": list(c.get("evidence_atom_ids", [])),
-                          "reason": reason, "ledger_ref": ref})
+                          "reason": reason, "ledger_ref": ref, "packet": packet})
         c["version"] = c.get("version", 1) + 1
 
     def same_direction(concept, atom_id):
@@ -65,7 +73,11 @@ def main():
                 return False
         return True
 
+    skipped_done = 0
     for pid, p in props.items():
+        if (packet, pid) in done:
+            skipped_done += 1
+            continue
         d = decisions.get(pid)
         kind = p["kind"]
         if d is None:
@@ -75,7 +87,7 @@ def main():
                 continue
         dec = d.get("decision")
         payload = {**p, **(d.get("payload") or {})}
-        precedents.append({"ts": now, "proposal_id": pid, "kind": kind, "decision": dec, "reason": d.get("reason"),
+        precedents.append({"ts": now, "packet": packet, "proposal_id": pid, "kind": kind, "decision": dec, "reason": d.get("reason"),
                            "payload": {k: v for k, v in payload.items() if k not in ("id", "auto_whitelist")}})
         if dec == "reject":
             continue
@@ -115,6 +127,8 @@ def main():
         elif kind == "new_case":
             held.append((pid, "新案例先走 G1 抽取入库，再回到 evidence_add"))
 
+    if skipped_done:
+        print(f"跳过 {skipped_done} 条：本提案包里已处理过（幂等）")
     if a.dry_run:
         print(f"[dry-run] 将应用 {len(applied)} 条，搁置 {len(held)} 条，判例 {len(precedents)} 条")
         for h in held: print("  搁置", h)

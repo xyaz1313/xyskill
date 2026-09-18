@@ -50,6 +50,7 @@ def main():
     ap.add_argument("--co-min", type=int, default=3)
     ap.add_argument("--wrong-min", type=int, default=2)
     ap.add_argument("--out", default=None)
+    ap.add_argument("--replay", action="store_true", help="不看上次合并点，把台账全部重新过一遍（提案没被处理、想重出时用）")
     a = ap.parse_args()
     ws = a.workspace
     kn = os.path.join(ws, "knowledge")
@@ -63,12 +64,18 @@ def main():
     days = 10 ** 6
     if state.get("last_ts"):
         days = (time.time() - time.mktime(time.strptime(state["last_ts"], "%Y-%m-%dT%H:%M:%S"))) / 86400
-    due = new_atoms >= a.min_atoms or days >= a.min_days
-    if not due and not a.force:
+    first_run = not state.get("last_ts")
+    due = first_run or new_atoms >= a.min_atoms or days >= a.min_days
+    if not due and not a.force and not a.replay:
         print(f"未到触发点：新增原子 {new_atoms}/{a.min_atoms}，距上次 {days:.1f}/{a.min_days} 天。--force 可强制。")
         return 0
+    if first_run:
+        print("首次合并：没有上次合并点，处理台账全部记录。")
 
-    rows = [r for r in ledger if r["ts"] > state.get("last_ts", "")]
+    rows = ledger if a.replay else [r for r in ledger if r["ts"] > state.get("last_ts", "")]
+    if not rows:
+        print("台账自上次合并以来没有新记录；要重出提案用 --replay。")
+        return 0
     cid = {c["id"]: c for c in concepts}
     aid = {x["id"]: x for x in atoms}
     props = []
@@ -131,7 +138,8 @@ def main():
         if r["kind"] == "explicit" and r.get("mark") == "missing" and r.get("text"):
             add("new_case", {"text": r["text"][:400], "query": r.get("query"), "why": "客户给了新案例，走 G1 抽取规则入库，再回到 evidence_add"})
 
-    ts = time.strftime("%Y%m%d-%H%M%S")
+    run_no = state.get("runs", 0) + 1
+    ts = f"{time.strftime('%Y%m%d-%H%M%S')}-r{run_no:03d}"  # 带序号：同一秒内两次运行不会互相覆盖
     out_dir = a.out or os.path.join(ws, "ontology", "gates")
     os.makedirs(out_dir, exist_ok=True)
     pj = os.path.join(out_dir, f"G6-{ts}-proposals.jsonl")
@@ -157,7 +165,10 @@ def main():
     pm = os.path.join(out_dir, f"G6-{ts}.md")
     with open(pm, "w", encoding="utf-8") as f:
         f.write("\n".join(md) + "\n")
-    state.update({"last_ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "last_atom_count": len(atoms), "runs": state.get("runs", 0) + 1, "last_packet": os.path.basename(pm)})
+    if not a.replay:  # replay 是重出，不推进合并点
+        state["last_ts"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+        state["last_atom_count"] = len(atoms)
+    state.update({"runs": run_no, "last_packet": os.path.basename(pm)})
     json.dump(state, open(state_p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"闸门包：{pm}\n提案：{pj}（{len(props)} 条：{dict(kinds)}）")
     return 0

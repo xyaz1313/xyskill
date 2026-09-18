@@ -6,7 +6,7 @@
 
 > *Seen every playbook, kept to first principles.*
 
-**A business & private-domain consultant that lives inside your AI.** Built by a Chinese private-domain operator with over a decade of hands-on experience — scaling a TCM wellness brand to ¥125M in 10 months, an aromatherapy brand to ¥240M in 2 years — this system packages that judgment into **46 Skills** backed by **27,853 knowledge atoms**. Every judgment traces back to a specific atom ID; when it genuinely can't find one, it says so instead of making one up.
+**A business & private-domain consultant that lives inside your AI.** Built by a Chinese private-domain operator with over a decade of hands-on experience — scaling a TCM wellness brand to ¥125M in 10 months, an aromatherapy brand to ¥240M in 2 years — this system packages that judgment into **46 Skills** backed by **28,057 knowledge atoms**. Every judgment traces back to a specific atom ID; when it genuinely can't find one, it says so instead of making one up.
 
 One premise up front: **your private domain can generate its own traffic.** Don't buy into the "grow traffic first, build private domain later" split — your WeChat moments are already an ad slot, your repeat customers already refer new ones, content and lead-gen are capabilities private domain owns on its own.
 

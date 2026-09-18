@@ -96,6 +96,13 @@ def cmd_emit(args):
 def cmd_score(args):
     expected = {r["id"]: r for r in load_cases()}
     answers = {a["id"]: a.get("answer") for a in load_jsonl(args.answers)}
+    unknown = [i for i in answers if i not in expected]
+    if unknown:
+        print(f"警告：{len(unknown)} 个作答 id 不在用例集里，已忽略：{unknown[:5]}")
+    answered = sum(1 for i, v in answers.items() if i in expected and v is not None)
+    if answered == 0:
+        print("没有任何有效作答（answer 全为 null 或 id 全不匹配）")
+        return 1
     stat = defaultdict(lambda: {"n": 0, "ok": 0})
     confusion = defaultdict(int)
     missing = 0
