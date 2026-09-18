@@ -10,6 +10,7 @@ VALID_TOPICS = {
     "商业案例与实战复盘", "团队与模式设计", "认知与心态", "私域运营", "流量获取",
     "AI与工具", "成交与话术", "选品逻辑", "内容创作与平台", "IP人设",
     "合规与风控", "新人起步方法论", "中国市场与下沉", "通用商业管理",
+    "本体论与FDE方法论",
 }
 VALID_RELS = {"supports", "contradicts", "example_of", "prerequisite_of", "refines"}
 ID_PATTERN = re.compile(r"^[A-Z0-9]+-[A-Z0-9-]+[a-z]?$")  # 允许 RZP-020b 这类子编号后缀
