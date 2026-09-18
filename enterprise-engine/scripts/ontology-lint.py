@@ -29,9 +29,58 @@ def load_profile(atoms_path, explicit=None):
     return None, None
 
 
-def lint(path, profile=None):
+def _resolve(profile_path, rel):
+    if not rel:
+        return None
+    if os.path.isabs(rel):
+        return rel
+    base = os.path.dirname(os.path.abspath(profile_path)) if profile_path else os.getcwd()
+    for b in (base, os.path.dirname(base)):
+        c = os.path.join(b, rel)
+        if os.path.exists(c):
+            return c
+    return None
+
+
+def load_blocklist(profile, profile_path):
+    """来源名单：一行一个名字/笔名/账号名，# 开头是注释。命中即违规——'重塑不照搬'的第一道机器检查。"""
+    p = _resolve(profile_path, (profile or {}).get("blocklist_file"))
+    if not p:
+        return [], None
+    names = []
+    for l in open(p, encoding="utf-8"):
+        l = l.strip()
+        if l and not l.startswith("#"):
+            names.append(l)
+    return names, p
+
+
+def load_source_windows(sources_dir, width=24):
+    """第三方原始素材的定长字符窗口集合。原子 knowledge 里出现任何一个完整窗口 = 原文照搬。
+    只在显式给 --sources-dir 时启用；素材目录通常在 .gitignore 里，不进仓库。"""
+    win = set()
+    if not sources_dir or not os.path.isdir(sources_dir):
+        return win
+    strip = re.compile(r"\s+")
+    for root, _, files in os.walk(sources_dir):
+        for fn in files:
+            if not fn.lower().endswith((".txt", ".md", ".srt", ".json", ".jsonl")):
+                continue
+            try:
+                t = strip.sub("", open(os.path.join(root, fn), encoding="utf-8", errors="ignore").read())
+            except OSError:
+                continue
+            for i in range(0, max(0, len(t) - width + 1)):
+                win.add(t[i:i + width])
+    return win
+
+
+def lint(path, profile=None, profile_path=None, sources_dir=None, window=24):
     VALID_TOPICS = set(profile["topics"]) if profile and profile.get("topics") else DEFAULT_TOPICS
     ID_PATTERN = re.compile((profile or {}).get("id_pattern") or DEFAULT_ID_PATTERN)
+    blocklist, blocklist_path = load_blocklist(profile, profile_path)
+    windows = load_source_windows(sources_dir, window)
+    ws = re.compile(r"\s+")
     atoms = {}
     rows = []
     with open(path, encoding="utf-8") as f:
@@ -85,6 +134,17 @@ def lint(path, profile=None):
         if t in ("case", "number") and not d.get("source_type"):
             issues.append((lineno, aid, f"{t}类型缺少source_type"))
 
+        text = (d.get("knowledge") or "") + " " + (d.get("original") or "")
+        for nm in blocklist:
+            if nm in text:
+                issues.append((lineno, aid, f"命中来源名单: {nm!r}"))
+        if windows:
+            k = ws.sub("", d.get("knowledge") or "")
+            for i in range(0, max(0, len(k) - window + 1), 4):
+                if k[i:i + window] in windows:
+                    issues.append((lineno, aid, f"疑似原文照搬(与素材有≥{window}字连续重合): …{k[i:i + window]}…"))
+                    break
+
     # 第二遍：死链检查（related 指向的 id 必须存在）
     dead_links = 0
     for lineno, d, parse_err in rows:
@@ -102,6 +162,9 @@ def lint(path, profile=None):
         "legacy_related_format": legacy_related_format,
         "typed_related_format": typed_related_format,
         "dead_links": dead_links,
+        "blocklist": blocklist_path,
+        "blocklist_names": len(blocklist),
+        "source_windows": len(windows),
     }
 
 
@@ -109,12 +172,15 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--file", default=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "knowledge", "atoms.jsonl"))
     ap.add_argument("--profile", help="画像文件；默认取 atoms.jsonl 同目录的 profile.json")
+    ap.add_argument("--sources-dir", help="第三方原始素材目录；给了就做'原文照搬'检查（≥--window 字连续重合即违规）")
+    ap.add_argument("--window", type=int, default=24)
     ap.add_argument("--max-print", type=int, default=30)
     args = ap.parse_args()
 
     profile, profile_path = load_profile(args.file, args.profile)
-    result = lint(args.file, profile)
+    result = lint(args.file, profile, profile_path, args.sources_dir, args.window)
     print(f"画像: {profile_path or '内置默认(XY)'}")
+    print(f"来源名单: {result['blocklist'] or '无'}（{result['blocklist_names']} 个名字）；素材窗口: {result['source_windows']}")
     print(f"原子总数: {result['total_atoms']}")
     print(f"related 旧格式(纯ID字符串)条目数: {result['legacy_related_format']}")
     print(f"related 新格式(带rel类型)条目数: {result['typed_related_format']}")

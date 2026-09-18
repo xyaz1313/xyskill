@@ -1,0 +1,4 @@
+interface:
+  display_name: "xy-ontology"
+  short_description: "本体论与 FDE 入门：先问处境再讲'是什么'，与知识图谱/RAG/数仓对比，说清什么时候不该建；'怎么做'层面明确不接。"
+  default_prompt: "使用 $xy-ontology，用人话给我讲清本体论是什么、跟我们现在用的知识库有什么区别。"

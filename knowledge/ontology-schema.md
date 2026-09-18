@@ -73,6 +73,7 @@
 4. `related` 若存在，必须是 `[{"id":..., "rel":...}]` 结构，`rel` 必须在5种枚举内
 5. `related[].id` 指向的原子必须真实存在于库中（不允许死链）
 6. `case`/`number` 类型的原子，`source_type` 不能为空
+7. （2026-09-18 起，可选）`profile.json` 里 `blocklist_file` 指向的来源名单（一行一个名字/笔名/账号名，文件本身在 .gitignore 里）——`knowledge`/`original` 命中即违规；另有 `--sources-dir <第三方素材目录>` 开关，原子与素材有 ≥24 字连续重合即判"原文照搬"。这是"重塑不照搬"的机器检查，补的是 `xy-atomize` 里一直写着"还没建"的那道防线
 
 ## Action层（本体上的可执行动作）
 

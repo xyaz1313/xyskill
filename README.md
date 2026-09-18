@@ -4,12 +4,12 @@
 
 > 面向老板与创业者的商业中文 AI Skills 工具箱。从定位、选品、内容、流量、私域、成交，到商业模式与团队管理——把生意里任何一段的真实问题交给 Agent，获得有依据的判断和马上能做的下一步。
 
-![Version](https://img.shields.io/badge/version-2.7.2-2e6b4f.svg?style=flat-square)
+![Version](https://img.shields.io/badge/version-2.8.0-2e6b4f.svg?style=flat-square)
 ![License](https://img.shields.io/badge/license-CC%20BY--NC%204.0-c6ff00.svg?style=flat-square)
 
 **支持：Claude Code、Codex、豆包、WorkBuddy，以及其他支持 Skills 的 Agent。**
 
-小爷做私域十几年，从 0 带过好几个项目盘到过亿。风物执守把这些年真正管用的判断，拆成 **27,853 条能查、能引用的知识原子**和 **45 个能直接调的 Skill**。
+小爷做私域十几年，从 0 带过好几个项目盘到过亿。风物执守把这些年真正管用的判断，拆成 **27,853 条能查、能引用的知识原子**和 **46 个能直接调的 Skill**。
 
 [上手三步](#上手三步) · [能解决什么](#能解决什么) · [装好之后有什么](#装好之后有什么) · [怎么装](#怎么装) · [指令清单](docs/XY指令清单.md)
 
@@ -59,12 +59,13 @@
 
 ## 装好之后有什么
 
-45 个 Skill 覆盖 13 个方向，说人话就能自动进对门，也能直接用命令点名：
+46 个 Skill 覆盖 13 个方向，说人话就能自动进对门，也能直接用命令点名：
 
 | 方向 | 直接点名 | 通常给你什么 |
 | --- | --- | --- |
 | 商业诊断与模式 | `/xy-biz-scan` `/xy-mode` `/xy-ops` | 七项体检、分佣审查、人效与起盘判断 |
 | 企业AI落地顾问 | `/xy-fde` | 标品/定制判断、报价模式、组织推进阻力应对 |
+| 本体论与FDE入门 | `/xy-ontology` | 本体论/FDE 是什么、与知识图谱 RAG 数仓的区别、值不值得建 |
 | 选品与供应链 | `/xy-selection` | 两轴分类、成本核算、收费测试方案 |
 | IP 与定位 | `/xy-ip` `/xy-goal-card` | 七项定位标准、可开工的目标卡 |
 | 内容创作 | `/xy-content-scan` `/xy-opener` `/xy-script-glue` `/xy-human-touch` `/xy-replica` | 五维诊断、开头候选、衔接检查、去 AI 味、爆款素材复刻 |
@@ -77,7 +78,7 @@
 | 思辨与学习 | `/xy-roundtable` `/xy-course` `/xy-term-crack` | 圆桌交锋、交互式课程、概念拆解 |
 | 档案与工作台 | `/xy-archive` `/xy-resume` `/xy-casefile` `/xy-vault` `/xy-workbench` | 本地存档、决策立案、知识库、多端桥接 |
 
-完整 45 个 Skill 的中文名、适用时机与输入示例，见 [XY 指令清单](docs/XY指令清单.md)。
+完整 46 个 Skill 的中文名、适用时机与输入示例，见 [XY 指令清单](docs/XY指令清单.md)。
 
 ## 怎么装
 
@@ -119,7 +120,7 @@ claude plugin install xy@xy-skills
 
 | 位置 | 放的是什么 |
 | --- | --- |
-| `skills/` | 45 个 Skill 的真源 |
+| `skills/` | 46 个 Skill 的真源 |
 | `agents/xy-coach.md` | 教练智能体 |
 | `_shared/` | 9 条信条、语气红线、路由契约、板块清单 |
 | `knowledge/` | 原子库（`_internal/` 是内部草料，不对外分发） |

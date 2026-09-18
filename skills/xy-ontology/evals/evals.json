@@ -1,0 +1,7 @@
+[
+ {"input":"本体论到底是什么？跟知识图谱有什么区别","expect":"判定为 A；一句话定义（业务的名词和动词）+ 与知识图谱对比（图谱只读，本体有动作和审计），引用 XY-ONT-086/065/067 之类原子 id；给一个 24 小时内的第一件事","should_route_elsewhere":false},
+ {"input":"我们公司上了 RAG 知识库半年了，员工说查出来的东西不对，是不是要建本体","expect":"判定为 B；先问卡在哪一段（查不到/查到不对/改不了），不把问题一律归到没建本体；引用 XY-ONT-805/013/829 等；说明本体只解决其中哪一段","should_route_elsewhere":false},
+ {"input":"帮我看看我们 ERP 和 CRM 的表，该抽成哪些实体和关系","expect":"触发诚实边界：明确说这是对着自己数据走六步法的执行工作，本 skill 不做、不用通用原子硬答；只给'第一步该看什么'的最小动作后停止","should_route_elsewhere":false},
+ {"input":"有个客户想让我给他们做 AI 落地，这单该怎么报价","expect":"说明边界（这是 xy-fde 的范围），保留已提取信息，不在本 skill 内展开报价方案","should_route_elsewhere":true},
+ {"input":"我们只是想让 AI 回答一下内部文档里的问题，要不要建本体","expect":"判定为 C；直接说不该建（纯文档问答用向量 RAG），引用 XY-ONT-045；不推销","should_route_elsewhere":false}
+]

@@ -137,7 +137,8 @@
 - [x] 阶段4：写摘要（2026-09-18完成）——核对23个既有节点的`evidence_atom_ids`未受任务1（私域运营topic清理2289条改归"通用商业管理"）影响，摘要保持不变；新增`CPT-SY-024`（微信账号安全运营手册）撰写全新摘要
 - [x] 阶段5：建索引（2026-09-18完成）——`knowledge/concepts-index.md`，24个节点+一句话摘要+证据数+节点关系，增量维护
 - [ ] 两级漏斗的Jaccard脚本化——待写，复用`atoms-search.py`现有IDF机制改造
-- [ ] `concepts_revisions.jsonl`——待建立（v1版本尚未发生过修订，暂不需要）
+- [x] `concepts_revisions.jsonl`——写入机制已建（2026-09-18，`enterprise-engine/scripts/apply.py`，每次 summary/evidence/related 变更写一条，带 `ledger_ref`）；XY 自己的库尚未发生修订，文件暂不存在
+- [ ] 全库近似重复清理——扫描报告已出（`docs/reports/near-dup-scan-2026-09-18.md`，`scripts/atoms-near-dup-scan.py`），结论：措辞级重复很少；"同观点不同措辞"型靠文本相似度找不出，只能在概念节点内人工看（报告 N 档）。处理待人工
 - [ ] `ontology-lint.py`要不要扩展校验concepts.jsonl——待概念层稳定后评估
 
 ### 阶段1真实发现（重要，影响后续规模化）

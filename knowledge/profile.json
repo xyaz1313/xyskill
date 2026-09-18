@@ -11,5 +11,6 @@
   "id_pattern": "^[A-Z0-9]+-[A-Z0-9-]+[a-z]?$",
   "source_types": ["course", "account_video", "user_import", "third_party_ip", "external_adapted", "book_distilled", "derived"],
   "concept_id_prefix": "CPT-",
-  "type_aliases": {}
+  "type_aliases": {},
+  "blocklist_file": "tools/name_blocklist.txt"
 }

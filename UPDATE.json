@@ -1,1 +1,1 @@
-{"version": "2.7.2", "notice": "修正作者私域实战年限表述（十几年，非二十年），xy-coach 开场白同步更新", "details_url": "https://github.com/xyaz1313/xyskill/blob/main/README.md"}
+{"version": "2.8.0", "notice": "新增免费层 skill xy-ontology（本体论与FDE入门）；lint 改为读 profile.json 并支持来源名单/原文照搬检查；新增回归套件与企业引擎目录", "details_url": "https://github.com/xyaz1313/xyskill/blob/main/README.md"}

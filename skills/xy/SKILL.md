@@ -126,6 +126,7 @@ bash "<本 SKILL.md 所在目录>/../xy-sync/scripts/xy-sync.sh" check-remote
 | **⑦ 行业与 AI** | | |
 | "我是做减脂/养生/服装/微商转直营/知识付费/大健康的，这个赛道怎么获客""这个行业怎么打" | `/xy-playbook` | 赛道打法：心智阶段 / 内容职能 / 产品分层 / 获客路径 / 合规红线；8 张模板，其它赛道走通用推演 |
 | 想搭内容生产 AI 流水线、"哪一步能让 AI 干""怎么固化成 skill" | `/xy-ai-workflow` | 选题→逐字稿→切片→标题→排雷 的编排 |
+| "本体论/Ontology 到底是什么""跟知识图谱 RAG 有什么区别""FDE 是干嘛的""为什么我们上了知识库还是不好用""要不要给公司建本体" | `/xy-ontology` | 只讲"是什么"：先问处境再对比着讲，说清什么时候不该建；对着客户数据建模那种"怎么做"它不接 |
 | **⑧ 思维与状态** | | |
 | "帮我想想""听听不同观点""开个圆桌" | `/xy-roundtable` | 多角色讨论 + 判官总结（含深度分析模式） |
 | 知道该做但做不动、"我总拖延" | `/xy-kickoff` | 执行力诊断 |
@@ -354,4 +355,5 @@ bash "<本 SKILL.md 所在目录>/../xy-sync/scripts/xy-sync.sh" check-remote
 | AI/知识库/工作台 | xy-ai-workflow · xy-vault · xy-workbench |
 | 找先例/案例 | xy-precedent |
 | 给别人企业做AI落地咨询 | xy-fde |
+| 本体论/Ontology/知识图谱/FDE 是什么、值不值得建 | xy-ontology |
 

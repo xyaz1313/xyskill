@@ -11,8 +11,11 @@ enterprise-engine/
   README.md
   profile.example.json      # 客户画像模板：topics、id 格式、来源类型、偏好来源
   scripts/
-    ontology-lint.py        # 与仓库根目录同源（改一处要同步另一处）；从 profile.json 读画像
+    ontology-lint.py        # 与仓库根目录同源（改一处要同步另一处）；从 profile.json 读画像、来源名单；--sources-dir 查原文照搬
     atoms-search.py         # 去掉云端默认与 XY 专属降噪；--remote 显式给地址才联网
+    ledger.py               # G6：使用台账（explicit / implicit / conflict 三种信号）
+    consolidate.py          # G6：台账 → 迭代闸门包 + 提案 jsonl，离线，只产提案
+    apply.py                # G6：人拍板后落盘，写 revisions，判例回写 rules/precedents.jsonl
   gates/
     GATE-TEMPLATE.md        # G0–G6 共用的闸门包模板
   rules/                    # 校准规则骨架：每个工程一份，在闸门上由人拍板后回写
