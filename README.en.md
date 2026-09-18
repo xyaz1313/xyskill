@@ -6,11 +6,18 @@
 
 > *Seen every playbook, kept to first principles.*
 
-**A business & private-domain consultant that lives inside your AI.** Built by a Chinese private-domain operator with over a decade of hands-on experience — scaling a TCM wellness brand to ¥125M in 10 months, an aromatherapy brand to ¥240M in 2 years — this system packages that judgment into **46 Skills** backed by **27,966 knowledge atoms**. Every judgment traces back to a specific atom ID; when it genuinely can't find one, it says so instead of making one up.
+**A business & private-domain consultant that lives inside your AI.** Built by a Chinese private-domain operator with over a decade of hands-on experience — scaling a TCM wellness brand to ¥125M in 10 months, an aromatherapy brand to ¥240M in 2 years — this system packages that judgment into **46 Skills** across four lines: **private domain & traffic** (positioning, product selection, content, lead-gen, closing), **business & team** (models, compliance, headcount efficiency), **IP & content creation**, and **Ontology & FDE (Forward Deployed Engineer) methodology**.
+
+The Ontology/FDE line isn't a slide deck: the six-step modeling method actually ran on our own **27,966 knowledge atoms** and one real client system, producing **333 concept nodes** — and an independent AI fact-checked the results line by line before publishing. The process and conclusions are fully public, see [`xy-ontology`](skills/xy-ontology/SKILL.md).
+
+![Version](https://img.shields.io/badge/version-2.9.0-2e6b4f.svg?style=flat-square)
+![License](https://img.shields.io/badge/license-CC%20BY--NC%204.0-c6ff00.svg?style=flat-square)
+
+Every judgment traces back to a specific atom ID; when it genuinely can't find one, it says so instead of making one up.
 
 One premise up front: **your private domain can generate its own traffic.** Don't buy into the "grow traffic first, build private domain later" split — your WeChat moments are already an ad slot, your repeat customers already refer new ones, content and lead-gen are capabilities private domain owns on its own.
 
-[Get started](#get-started) · [What it solves](#what-it-solves) · [What's inside](#whats-inside) · [Install](#install)
+[Get started](#get-started) · [What it solves](#what-it-solves) · [How Ontology & FDE actually got built](#how-ontology--fde-actually-got-built) · [What's inside](#whats-inside) · [Install](#install)
 
 ## Get started
 
@@ -48,6 +55,7 @@ You don't need to learn a framework or know which tool to call. Hand `/xy` whate
 | Can't keep the team, don't know how to set commissions | Efficiency red lines, payout structure, launch-pace review |
 | Want a few different perspectives on one decision | Roundtable: 3–5 frameworks argue it out and a verdict gets called |
 | Want to pick up last session's conclusion | Local archive: save, resume, case-file backfill — all on your own machine |
+| Company's internal rules are a mess, and AI hasn't fixed it | Ontology/FDE: get clear on what it is and whether it's worth building; real rollout follows a gated delivery process |
 
 ## How routing and memory connect
 
@@ -57,14 +65,29 @@ One skill at a time. Each round's conclusion becomes the input for the next roun
 
 ![How the system connects](docs/assets/system-flow-readme.png)
 
+## How Ontology & FDE actually got built
+
+Ontology is a discipline for defining the entities, types, hierarchy, and relationships inside a business — it traces back to the philosophical study of "being," later borrowed by computer science to solve the problem of "data piling up while AI still can't read the business structure." The role that does this work inside a company is called an FDE (Forward Deployed Engineer, "forward-deployed engineer") — someone who moves into a client's systems with tooling and builds out *that client's own* business structure, rather than selling a generic template.
+
+XY didn't stop at "explaining the concept": the six-step modeling method (define boundaries → extract entities → define types → build hierarchy → extract relations → verify) actually ran twice — once on our own 27,966 knowledge atoms, producing 333 concept nodes; once as a verification pass on one real client system. We didn't publish immediately after finishing — instead, an independent AI fact-checked the conclusions line by line against real data, fixed the errors it found, and only then republished. That's what step six, "verify," is actually for — not a formality.
+
+![Ontology & FDE methodology](docs/assets/ontology-fde-flow.png)
+
+This line splits into two layers with a hard boundary:
+
+- **`xy-ontology` (free)**: answers "what is Ontology/FDE, how does it differ from a knowledge graph or RAG warehouse, is it worth building for your company" — its job is building judgment, not doing the work.
+- **`xy-fde` (enterprise consulting entry point)**: off-the-shelf vs. custom, pricing, internal org resistance — its job is judging whether and how to take on an engagement; actually walking a client's own data through the full modeling process is a separate on-site service.
+- **Scope boundary**: this line is for internal knowledge, operations, and compliance scenarios — it is not a "get more customers" growth tool. Ontology work has a long payback cycle and a poor cost/benefit ratio for top-of-funnel acquisition; don't misapply it.
+
 ## What's inside
 
-46 skills across 13 areas — plain language routes you in automatically, or call a skill by name:
+46 skills across 14 areas — plain language routes you in automatically, or call a skill by name:
 
 | Area | Call directly | What you typically get |
 | --- | --- | --- |
-| Business diagnosis & model | `/xy-biz-scan` `/xy-mode` `/xy-ops` | Seven-point health check, commission review, efficiency & launch-readiness calls |
+| Ontology & FDE onboarding | `/xy-ontology` | What Ontology/FDE is, how it differs from a knowledge graph/RAG warehouse, whether it's worth building |
 | Enterprise AI consulting | `/xy-fde` | Off-the-shelf vs. custom calls, pricing models, org-adoption resistance |
+| Business diagnosis & model | `/xy-biz-scan` `/xy-mode` `/xy-ops` | Seven-point health check, commission review, efficiency & launch-readiness calls |
 | Product selection & supply chain | `/xy-selection` | Two-axis classification, cost accounting, paid-test plan |
 | IP & positioning | `/xy-ip` `/xy-goal-card` | Seven positioning criteria, an executable goal card |
 | Content creation | `/xy-content-scan` `/xy-opener` `/xy-script-glue` `/xy-human-touch` `/xy-replica` | Five-dimension diagnosis, opening-line candidates, flow check, de-AI-flavor pass, viral-content replication |
@@ -128,7 +151,7 @@ This repo is licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/
 
 ## Author & support
 
-Author: **Xiaoye** · Serial entrepreneur & business creator · Author of Fengwu Zhishou · [Douyin](https://v.douyin.com/njWgCcCFUYY/)
+Author: **Xiaoye** · Business creator · Private-domain operator · Ontology/FDE methodology practitioner · [Douyin](https://v.douyin.com/njWgCcCFUYY/)
 
 <img src="docs/assets/wechat-qrcode.jpg" alt="WeChat" width="240">
 
