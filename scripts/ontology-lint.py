@@ -159,9 +159,19 @@ def lint(path, profile=None, profile_path=None, sources_dir=None, window=24):
                 dead_links += 1
                 issues.append((lineno, d.get("id"), f"related死链: 指向不存在的id {rid!r}"))
 
+    # 软规则（schema 里写了但不 fail 的）：anti-pattern 应有对立的 principle/method（related 里有 contradicts）
+    warnings = []
+    for lineno, d, parse_err in rows:
+        if parse_err or d.get("type") not in ("anti-pattern", "risk"):
+            continue
+        rels = [r for r in (d.get("related") or []) if isinstance(r, dict)]
+        if not any(r.get("rel") == "contradicts" for r in rels):
+            warnings.append((lineno, d.get("id"), "anti-pattern 没有 contradicts 关联（软规则，不算违规）"))
+
     return {
         "total_atoms": len(rows),
         "issues": issues,
+        "warnings": warnings,
         "legacy_related_format": legacy_related_format,
         "typed_related_format": typed_related_format,
         "dead_links": dead_links,
@@ -171,6 +181,53 @@ def lint(path, profile=None, profile_path=None, sources_dir=None, window=24):
     }
 
 
+def lint_concepts(cpath, atoms_path, profile, max_summary=450):
+    """concepts.jsonl 结构校验：id 唯一、证据存在、related 指向存在且 rel 在枚举内、category 在 topics 内、summary 长度、标题不重复。"""
+    atoms = set()
+    with open(atoms_path, encoding="utf-8") as f:
+        for l in f:
+            l = l.strip()
+            if l:
+                try:
+                    atoms.add(json.loads(l).get("id"))
+                except Exception:
+                    pass
+    concepts = [json.loads(l) for l in open(cpath, encoding="utf-8") if l.strip()]
+    ids = [c.get("id") for c in concepts]
+    idset = set(ids)
+    topics = set(profile["topics"]) if profile and profile.get("topics") else DEFAULT_TOPICS
+    issues, warnings = [], []
+    seen_title = {}
+    for i, c in enumerate(concepts, 1):
+        cid = c.get("id")
+        if ids.count(cid) > 1:
+            issues.append((i, cid, "concept id 重复"))
+        for e in c.get("evidence_atom_ids") or []:
+            if e not in atoms:
+                issues.append((i, cid, f"证据死链: {e}"))
+        if len(c.get("evidence_atom_ids") or []) != len(set(c.get("evidence_atom_ids") or [])):
+            issues.append((i, cid, "evidence_atom_ids 内有重复"))
+        if not c.get("evidence_atom_ids"):
+            issues.append((i, cid, "零证据节点"))
+        for r in c.get("related_concepts") or []:
+            if r.get("id") not in idset:
+                issues.append((i, cid, f"related_concepts 死链: {r.get('id')}"))
+            if r.get("rel") not in VALID_RELS:
+                issues.append((i, cid, f"related_concepts.rel 不在枚举内: {r.get('rel')}"))
+        if c.get("category") not in topics:
+            issues.append((i, cid, f"category 不在 topics 内: {c.get('category')!r}"))
+        n = len(c.get("summary") or "")
+        if n > max_summary:
+            issues.append((i, cid, f"summary {n} 字，超硬上限 {max_summary}"))
+        elif n > 200:
+            warnings.append((i, cid, f"summary {n} 字，超建议值 200"))
+        t = c.get("title")
+        if t in seen_title:
+            issues.append((i, cid, f"标题与 {seen_title[t]} 完全重复"))
+        seen_title.setdefault(t, cid)
+    return {"total": len(concepts), "issues": issues, "warnings": warnings}
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--file", default=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "knowledge", "atoms.jsonl"))
@@ -178,10 +235,17 @@ if __name__ == "__main__":
     ap.add_argument("--sources-dir", help="第三方原始素材目录；给了就做'原文照搬'检查（≥--window 字连续重合即违规）")
     ap.add_argument("--window", type=int, default=24)
     ap.add_argument("--max-print", type=int, default=30)
+    ap.add_argument("--concepts", nargs="?", const="auto", help="同时校验 concepts.jsonl（不给路径则取 atoms 同目录）")
+    ap.add_argument("--warn", action="store_true", help="打印软规则警告清单")
     args = ap.parse_args()
 
     profile, profile_path = load_profile(args.file, args.profile)
     result = lint(args.file, profile, profile_path, args.sources_dir, args.window)
+    concept_result = None
+    if args.concepts:
+        cpath = os.path.join(os.path.dirname(os.path.abspath(args.file)), "concepts.jsonl") if args.concepts == "auto" else args.concepts
+        if os.path.isfile(cpath):
+            concept_result = lint_concepts(cpath, args.file, profile)
     print(f"画像: {profile_path or '内置默认(XY)'}")
     print(f"来源名单: {result['blocklist'] or '无'}（{result['blocklist_names']} 个名字）；素材窗口: {result['source_windows']}")
     print(f"原子总数: {result['total_atoms']}")
@@ -194,5 +258,19 @@ if __name__ == "__main__":
         print(f"  行{lineno} [{aid}] {msg}")
     if len(result["issues"]) > args.max_print:
         print(f"  ...还有 {len(result['issues']) - args.max_print} 条未显示")
+    print(f"软规则警告: {len(result['warnings'])}（--warn 查看）")
+    if args.warn:
+        for lineno, aid, msg in result["warnings"][: args.max_print]:
+            print(f"  行{lineno} [{aid}] {msg}")
 
-    sys.exit(1 if result["issues"] else 0)
+    failed = bool(result["issues"])
+    if concept_result:
+        print(f"\nconcepts: {concept_result['total']} 个节点，违规 {len(concept_result['issues'])}，软警告 {len(concept_result['warnings'])}")
+        for i, cid, msg in concept_result["issues"][: args.max_print]:
+            print(f"  节点{i} [{cid}] {msg}")
+        if args.warn:
+            for i, cid, msg in concept_result["warnings"][: args.max_print]:
+                print(f"  节点{i} [{cid}] {msg}")
+        failed = failed or bool(concept_result["issues"])
+
+    sys.exit(1 if failed else 0)

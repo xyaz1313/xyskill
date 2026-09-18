@@ -1,0 +1,3 @@
+{"tier": "补判", "a": "XY-UZB-590", "b": "XY-UZB-593", "decision": "merge", "keep": "XY-UZB-593", "from": null, "to": null, "rel": null, "type": "definition", "reason": "同一'查加答'三步，593 是通俗定义版更完整；590 并入。UZB-600 原被两次并入 590/593，沿链最终都到 593"}
+{"tier": "补判", "a": "XY-MB-538", "b": "XY-MB-212", "decision": "merge", "keep": "XY-MB-212", "from": null, "to": null, "rel": null, "reason": "同一'AI 是放大器不是替代'判断，212 多了后果（风格沉淀 vs 同质化）；538 并入。MB-119 原被两次并入，沿链最终到 212"}
+{"tier": "补判", "a": "XY-MC-0001", "b": "XY-MC-0014", "decision": "merge", "keep": "XY-MC-0001", "from": null, "to": null, "rel": null, "reason": "同一'经压缩的中间层把握现实'判断，0001 是通用 principle，0014 只是加了'语言考古学'来源标签；0014 并入。MC-0015 原被两次并入，沿链最终到 0001"}

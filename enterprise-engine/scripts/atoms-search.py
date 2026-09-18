@@ -57,6 +57,7 @@ ap.add_argument("query"); ap.add_argument("--type"); ap.add_argument("--topic");
 ap.add_argument("--json", action="store_true"); ap.add_argument("--file", default=os.environ.get("ATOMS_FILE") or _find_atoms_local())
 ap.add_argument("--expand-related", action="store_true"); ap.add_argument("--expand-limit", type=int, default=2)
 ap.add_argument("--via-concepts", action="store_true"); ap.add_argument("--remote", help="显式指定远端检索地址；不给就永远本地")
+ap.add_argument("--no-ledger", action="store_true", help="不写使用台账（默认每次检索追加一行 implicit 到 knowledge/usage_ledger.jsonl，G6 的信号源）")
 a = ap.parse_args()
 
 if a.remote:
@@ -168,6 +169,18 @@ if a.expand_related and _by_id:
                 break
         if picked:
             expanded[o["id"]] = picked
+
+if not a.no_ledger:
+    # G6 信号源：每次本地检索记一行 implicit（命中了哪些节点/原子；无命中也记，那是覆盖缺口信号）。写失败不影响检索。
+    try:
+        import time as _t
+        _led = os.path.join(os.path.dirname(os.path.abspath(a.file)), "usage_ledger.jsonl")
+        _row = {"ts": _t.strftime("%Y-%m-%dT%H:%M:%S"), "kind": "implicit", "query": a.query, "actor": "atoms-search",
+                "concept_ids": [matched_concept["id"]] if matched_concept else [], "atom_ids": [o["id"] for _, o in rows]}
+        with open(_led, "a", encoding="utf-8") as _f:
+            _f.write(json.dumps(_row, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
 
 if a.json:
     out = []
