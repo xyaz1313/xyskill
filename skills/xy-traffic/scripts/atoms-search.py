@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """XY 原子检索（零依赖）。用法：
-  atoms-search "关键词 关键词2" [--skill xy-close] [--type case,anti-pattern] [--topic 成交与话术] [-k 5] [--json]
+  atoms-search "关键词 关键词2" [--skill xy-close] [--type case,anti-pattern] [--topic 成交与话术] [-k 5] [--json] [--expand-related]
 默认走云端全量库（api.xyskill.xyz），云端不可达自动回退本地兜底子集；可用 XY_ATOMS 环境变量覆盖成本地路径强制离线，或指向别的 https:// 地址。
-评分：knowledge 命中关键词数×3 + original 命中×1 + type 偏好(case/anti-pattern/number +1) + confidence high +1。"""
+评分：knowledge 命中关键词数×3 + original 命中×1 + type 偏好(case/anti-pattern/number +1) + confidence high +1。
+--expand-related：命中结果沿 related(rel=supports/example_of优先) 再带出关联原子，形成"结论+佐证"证据链，而非孤立单条。仅本地文件模式支持，云端命中不展开。"""
 import json, os, sys, re, argparse
 def _find_atoms_local():
     """本地候选路径：本脚本真实路径所在包 > ~/.xy/config.json 的 root > 常见安装位置。
@@ -59,7 +60,7 @@ def _load_idf(atoms_path):
     return {}
 
 default=_find_atoms()
-ap=argparse.ArgumentParser(); ap.add_argument("query"); ap.add_argument("--skill"); ap.add_argument("--type"); ap.add_argument("--topic"); ap.add_argument("-k",type=int,default=5); ap.add_argument("--json",action="store_true"); ap.add_argument("--file",default=default)
+ap=argparse.ArgumentParser(); ap.add_argument("query"); ap.add_argument("--skill"); ap.add_argument("--type"); ap.add_argument("--topic"); ap.add_argument("-k",type=int,default=5); ap.add_argument("--json",action="store_true"); ap.add_argument("--file",default=default); ap.add_argument("--expand-related",action="store_true"); ap.add_argument("--expand-limit",type=int,default=2)
 a=ap.parse_args()
 if a.file.startswith("http://") or a.file.startswith("https://"):
     try:
@@ -84,12 +85,14 @@ for _w in kws:
 kws = kws + [w for w in dict.fromkeys(_ext) if len(w)>=2 and w not in kws]
 types=set(a.type.split(",")) if a.type else None
 rows=[]
+_by_id={}  # 仅 --expand-related 时填充，用于按id反查关联原子
 try:
     for l in open(a.file,encoding="utf-8"):
         l=l.strip()
         if not l: continue
         try: o=json.loads(l)
         except: continue
+        if a.expand_related and o.get("id"): _by_id[o["id"]]=o
         if a.skill and "skills" in o and a.skill not in (o.get("skills") or []): continue  # 子集文件无 skills 字段时不过滤，防静默全空
         if types and o.get("type") not in types: continue
         if a.topic and a.topic not in (o.get("topics") or []): continue
@@ -130,7 +133,33 @@ try:
 except FileNotFoundError:
     print(f"[atoms-search] 找不到原子库：{a.file}",file=sys.stderr); sys.exit(0)
 rows.sort(key=lambda x:-x[0]); rows=rows[:a.k]
-if a.json: print(json.dumps([o for _,o in rows],ensure_ascii=False)); sys.exit(0)
+
+# --expand-related：命中原子沿 related 带出关联证据，supports/example_of 优先于 refines/prerequisite_of
+_REL_PRIORITY={"supports":0,"example_of":1,"prerequisite_of":2,"refines":3,"contradicts":0}
+expanded={}  # hit_id -> [related_atom, ...]
+if a.expand_related and _by_id:
+    shown_ids={o["id"] for _,o in rows}
+    for _,o in rows:
+        rels=[r for r in (o.get("related") or []) if isinstance(r,dict)]
+        rels.sort(key=lambda r:_REL_PRIORITY.get(r.get("rel"),9))
+        picked=[]
+        for r in rels:
+            tgt=_by_id.get(r.get("id"))
+            if not tgt or r["id"] in shown_ids: continue
+            picked.append((r.get("rel"),tgt)); shown_ids.add(r["id"])
+            if len(picked)>=a.expand_limit: break
+        if picked: expanded[o["id"]]=picked
+
+if a.json:
+    out=[]
+    for _,o in rows:
+        row=dict(o)
+        if o["id"] in expanded:
+            row["related_expanded"]=[{"rel":rel,**tgt} for rel,tgt in expanded[o["id"]]]
+        out.append(row)
+    print(json.dumps(out,ensure_ascii=False)); sys.exit(0)
 for s,o in rows:
     print(f"- [{o['id']}] ({o.get('type')}/{o.get('confidence')}) {o['knowledge']}")
+    for rel,tgt in expanded.get(o["id"],[]):
+        print(f"    ↳ [{rel}] {tgt['id']} ({tgt.get('type')}) {tgt['knowledge'][:60]}")
 if not rows: print("（原子库暂无匹配，请明说没有实证）")
