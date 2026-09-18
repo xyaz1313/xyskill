@@ -59,8 +59,21 @@ def _load_idf(atoms_path):
             except Exception: return {}
     return {}
 
+def _load_concepts(atoms_path):
+    """knowledge/concepts.jsonl 跟 atoms.jsonl 同目录；目前只覆盖"私域运营"topic，其余topic文件里没有对应节点，静默跳过不报错。"""
+    import os as _o
+    cand=_o.path.join(_o.path.dirname(atoms_path),"concepts.jsonl")
+    out=[]
+    if _o.path.isfile(cand):
+        try:
+            for _l in open(cand,encoding="utf-8"):
+                _l=_l.strip()
+                if _l: out.append(json.loads(_l))
+        except Exception: return []
+    return out
+
 default=_find_atoms()
-ap=argparse.ArgumentParser(); ap.add_argument("query"); ap.add_argument("--skill"); ap.add_argument("--type"); ap.add_argument("--topic"); ap.add_argument("-k",type=int,default=5); ap.add_argument("--json",action="store_true"); ap.add_argument("--file",default=default); ap.add_argument("--expand-related",action="store_true"); ap.add_argument("--expand-limit",type=int,default=2)
+ap=argparse.ArgumentParser(); ap.add_argument("query"); ap.add_argument("--skill"); ap.add_argument("--type"); ap.add_argument("--topic"); ap.add_argument("-k",type=int,default=5); ap.add_argument("--json",action="store_true"); ap.add_argument("--file",default=default); ap.add_argument("--expand-related",action="store_true"); ap.add_argument("--expand-limit",type=int,default=2); ap.add_argument("--via-concepts",action="store_true",help="query 先匹配概念节点标题，命中则把该节点全部 evidence_atom_ids 作为优先结果前置（目前仅私域运营topic有节点数据，其余topic静默无效果）")
 a=ap.parse_args()
 if a.file.startswith("http://") or a.file.startswith("https://"):
     try:
@@ -92,7 +105,7 @@ try:
         if not l: continue
         try: o=json.loads(l)
         except: continue
-        if a.expand_related and o.get("id"): _by_id[o["id"]]=o
+        if (a.expand_related or a.via_concepts) and o.get("id"): _by_id[o["id"]]=o
         if a.skill and "skills" in o and a.skill not in (o.get("skills") or []): continue  # 子集文件无 skills 字段时不过滤，防静默全空
         if types and o.get("type") not in types: continue
         if a.topic and a.topic not in (o.get("topics") or []): continue
@@ -134,6 +147,27 @@ except FileNotFoundError:
     print(f"[atoms-search] 找不到原子库：{a.file}",file=sys.stderr); sys.exit(0)
 rows.sort(key=lambda x:-x[0]); rows=rows[:a.k]
 
+# --via-concepts：query 先撞概念节点标题（knowledge/concepts.jsonl），命中则把该节点 evidence_atom_ids
+# 整体前置（不受关键词打分排挤），因为这些原子是人工/LLM精判确认过"真的支撑这个判断"，比单条关键词命中更可信。
+# 目前 concepts.jsonl 只有私域运营topic的节点，其余topic查询这个flag静默无效果（_concepts 为空列表）。
+matched_concept=None
+if a.via_concepts:
+    _concepts=_load_concepts(a.file)
+    _best_score,_best=0,None
+    for c in _concepts:
+        title=c.get("title","")
+        hit=sum(1 for w in kws if len(w)>=2 and w in title)
+        if hit>_best_score: _best_score,_best=hit,c
+    if _best_score>0 and _best:
+        matched_concept=_best
+        shown_ids={o["id"] for _,o in rows}
+        concept_rows=[]
+        for eid in _best.get("evidence_atom_ids",[]):
+            if eid in shown_ids: continue
+            tgt=_by_id.get(eid)
+            if tgt: concept_rows.append((999.0,tgt)); shown_ids.add(eid)  # 排序权重给到最高，确保排在关键词命中之前
+        rows=(concept_rows+rows)[:a.k]  # 仍然尊重 -k 上限；想要节点全部证据就把 -k 调大
+
 # --expand-related：命中原子沿 related 带出关联证据，supports/example_of 优先于 refines/prerequisite_of
 _REL_PRIORITY={"supports":0,"example_of":1,"prerequisite_of":2,"refines":3,"contradicts":0}
 expanded={}  # hit_id -> [related_atom, ...]
@@ -157,7 +191,9 @@ if a.json:
         if o["id"] in expanded:
             row["related_expanded"]=[{"rel":rel,**tgt} for rel,tgt in expanded[o["id"]]]
         out.append(row)
+    if matched_concept: print(json.dumps({"matched_concept":matched_concept.get("title"),"results":out},ensure_ascii=False)); sys.exit(0)
     print(json.dumps(out,ensure_ascii=False)); sys.exit(0)
+if matched_concept: print(f"【命中概念节点：{matched_concept.get('title')}】{matched_concept.get('summary','')}")
 for s,o in rows:
     print(f"- [{o['id']}] ({o.get('type')}/{o.get('confidence')}) {o['knowledge']}")
     for rel,tgt in expanded.get(o["id"],[]):
