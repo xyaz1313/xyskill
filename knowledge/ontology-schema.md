@@ -5,7 +5,7 @@
 
 ## 边界声明
 
-本体管辖范围：`knowledge/atoms.jsonl`（27,853+条知识原子）本身的结构与语义，以及围绕它的检索/校验/维护脚本（`scripts/atoms-search.py`、`scripts/ontology-lint.py`、`scripts/upgrade-related-v1.py`）。
+本体管辖范围：`knowledge/atoms.jsonl`（27,966 条知识原子，2026-09-18 去重后；后续以 `wc -l` 为准）本身的结构与语义，以及围绕它的检索/校验/维护脚本（`scripts/atoms-search.py`、`scripts/ontology-lint.py`、`scripts/upgrade-related-v1.py`）。
 
 **明确不管**：
 - 各`skills/xy-*/SKILL.md`里的对话流程与教练式交互逻辑——那是本体之上的应用层，不是本体本身

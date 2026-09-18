@@ -123,7 +123,7 @@
 | 本体论与FDE方法论（2026-09-18 收官补跑） | 204 | —（官方/学术材料，无此问题） | 0 | 59 | 25 |
 | **合计**¹ | **38058** | — | **23812**（含试点2289） | **4165** | **333**（收官审查合并 1 个重复节点后） |
 
-¹ 原始原子数按topic逐行相加，一条原子若同时挂多个topic会被重复计入（如XY-UZB系列常见同时挂"团队与模式设计"+"AI与工具"），因此37854大于`atoms.jsonl`实际总量27853，不是去重后的唯一原子数。
+¹ 原始原子数按topic逐行相加，一条原子若同时挂多个topic会被重复计入（如XY-UZB系列常见同时挂"团队与模式设计"+"AI与工具"），因此37854大于`atoms.jsonl`当时实际总量27853（收官去重后为27,966），不是去重后的唯一原子数。
 
 方法论延续私域运营试点确认的规则：候选节点只看principle/definition类原子；精判证据阶段允许跨topic语义匹配不强制原子topics字段包含节点所属topic；去重原则"related≠same，宁可留重复不错合并"；`id`前缀延续`CPT-<topic缩写>-序号`格式（NEW/SEL/COMP/TEAM/IP/CASE/AIT/COG/CLOSE/TRAF/CONT）。全部12个topic完成后共标注**7处显式跨topic`related_concepts: refines`关系**，把新topic里发现的、与私域运营试点24个节点或彼此高度重叠的内容链接起来而非重复建节点或强行合并（如成交与话术topic的转化阶梯定价/信任分层节点分别`refines`私域运营topic的`CPT-SY-002`/`CPT-SY-004`）。
 
@@ -146,7 +146,7 @@
 - [x] 阶段4：写摘要（2026-09-18完成）——核对23个既有节点的`evidence_atom_ids`未受任务1（私域运营topic清理2289条改归"通用商业管理"）影响，摘要保持不变；新增`CPT-SY-024`（微信账号安全运营手册）撰写全新摘要
 - [x] 阶段5：建索引（2026-09-18完成）——`knowledge/concepts-index.md`，24个节点+一句话摘要+证据数+节点关系，增量维护
 - [ ] 两级漏斗的Jaccard脚本化——待写，复用`atoms-search.py`现有IDF机制改造
-- [x] `concepts_revisions.jsonl`——写入机制已建（2026-09-18，`enterprise-engine/scripts/apply.py`，每次 summary/evidence/related 变更写一条，带 `ledger_ref`）；XY 自己的库尚未发生修订，文件暂不存在
+- [x] `concepts_revisions.jsonl`——写入机制已建（2026-09-18，私有仓库 xyskill-enterprise 的 `scripts/apply.py`，每次 summary/evidence/related 变更写一条，带 `ledger_ref`）；XY 自己的库尚未发生修订，文件暂不存在
 - [ ] 全库近似重复清理——扫描报告已出（`docs/reports/near-dup-scan-2026-09-18.md`，`scripts/atoms-near-dup-scan.py`），结论：措辞级重复很少；"同观点不同措辞"型靠文本相似度找不出，只能在概念节点内人工看（报告 N 档）。处理待人工
 - [ ] `ontology-lint.py`要不要扩展校验concepts.jsonl——待概念层稳定后评估
 
