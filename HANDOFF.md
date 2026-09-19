@@ -31,7 +31,7 @@
 1. **写死在 SKILL.md 正文里**（主路径，零延迟）：高频判断直接以中文段落写进每个技能自己的 `### 信条N` 章节，句末括号标原子编号（如"参考 XY-DY-073"）。技能文件一加载就能用，不用调用任何工具。
 2. **`scripts/atoms-search.py` 检索兜底**（长尾路径）：正文没覆盖到的边角问题，技能会调用这个零依赖的 Python 脚本去全库检索。用法：`python3 scripts/atoms-search.py "<关键词>" --skill <xy-name> -k 5`。评分逻辑见脚本本身的注释（IDF 加权、教学信号加分、自有实战优先、第三方咨询库降噪）。
 
-`source_type` 字段区分原子来源：`adapted_consulting`（14,421 条，咨询/管理类方法论重写，**重写后正文绝不点名具体是哪家公司**）、`adapted_book`（6,132 条，书，重写）、`adapted_other` / `platform_rule`、`course`（自己课程，792+ 条视具体统计）、`user_import`、`account_video`（自己账号内容）、`benchmark_account_video`、`offline_course_ppt`。**自有实战类（course/user_import/account_video）在检索里享有加分优先权**，第三方咨询类在 20 个高占比技能里被降噪。
+`source_type` 字段区分原子来源：`adapted_consulting`（14,421 条，咨询/管理类方法论重写，**重写后正文绝不点名具体是哪家公司**）、`adapted_book`（6,132 条，书，重写）、`adapted_other` / `platform_rule`、`course`（自己课程，792+ 条视具体统计）、`user_import`、`account_video`（自己账号内容）、`benchmark_account_video`、`adapted_course`。**自有实战类（course/user_import/account_video）在检索里享有加分优先权**，第三方咨询类在 20 个高占比技能里被降噪。
 
 ## 四、这几天做了什么（浓缩版，细节看 docs/decisions/）
 
