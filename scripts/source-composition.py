@@ -11,7 +11,8 @@ import json, os, sys, argparse, subprocess, collections
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OWN = {"user_import", "account_video", "course", "case_study"}          # 小爷自己的实战、课程、脱敏实操
-ADAPTED = {"third_party_ip", "book_distilled", "external_adapted", "offline_course_ppt"}   # 外部方法论，重写后入库
+ADAPTED = {"adapted_consulting", "adapted_book", "adapted_course", "adapted_other",      # 外部方法论，重写后入库（无原文）
+           "third_party_ip", "book_distilled", "external_adapted", "offline_course_ppt"}   # 2026-09-19 前的旧名，兼容历史数据
 LABEL = {"own": "自家实战/课程", "adapted": "外部方法论改写", "other": "对标账号/平台规则"}
 DEFAULT_QUERIES = ["一转 定价", "朋友圈 配比", "客户 不回消息", "复购 激活", "起号 冷启动", "导流 封号", "分佣 合规", "团队 提成",
                    "选品 供应链", "直播 憋单", "标题 小红书", "开头 三秒", "人设 定位", "私域 本质", "新人 第一步", "投流 千川",

@@ -143,7 +143,16 @@ Chinese is the system's native tongue, but it follows the language you use — a
 
 ## Where the atoms come from
 
-`knowledge/atoms.jsonl` holds 27,966 knowledge atoms, tagged across 15 topics and 94 sub-blocks; every atom stands on its own and links back to others. Four sources: the author's own practice (his course system, real account and livestream retrospectives, a decade-plus of founding businesses — anything with real numbers is marked `high` confidence); business-management and negotiation methodology (all rewritten into business-scenario language before entering the library); the current rules of the four major platforms (Douyin, Xiaohongshu, WeChat, Channels); and methodology from third-party paid bootcamps (speaker and student names anonymized, specific case passages excluded, only reusable judgments and methods kept). In retrieval ranking, first-hand practice always comes first.
+`knowledge/atoms.jsonl` holds 27,966 knowledge atoms, tagged across 15 topics and 94 sub-blocks; every atom stands on its own and links back to others.
+
+**Two numbers, stated up front:**
+
+- **Counted by volume, 86% comes from external methodology** — consulting frameworks, business-management and negotiation books, other people's courses — all rewritten into business-scenario language before entering the library; not a single passage of original text is stored, and every atom's `source_type` says so. A reader once had an AI compute this ratio. They got it right.
+- **Counted by what you actually get, 94% is the author's own practice and courses** — run 20 typical questions and 94% of the top-5 results come from real accounts, livestream retrospectives, the course system and a decade-plus of founding businesses (anything with real numbers is marked `high` confidence). Retrieval ranking always puts first-hand practice first; external methodology is the background layer, not the answer.
+
+Both numbers are reproducible: `python3 scripts/source-composition.py` prints the stock composition, the concept-node evidence composition, and the retrieval-result composition — same result for anyone who runs it.
+
+Other sources: current rules of the four major platforms (Douyin, Xiaohongshu, WeChat, Channels — `platform_rule`); benchmark account content (anonymized); methodology from third-party paid bootcamps (speaker and student names anonymized, specific case passages excluded, only reusable judgments and methods kept). Full definitions of source types live in `knowledge/ontology-schema.md`, section "来源类型".
 
 ## Repository layout
 

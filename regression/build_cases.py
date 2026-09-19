@@ -3,7 +3,7 @@
 
 数据来源（全部是已经发生过、有记录的判断，不是新造的标注）：
 - 证据链接：concepts.jsonl 私域运营 24 个节点的 evidence_atom_ids（HANDOFF-1 阶段1 精判结果）
-- 话题改标：commit 83c8508 之前的 atoms.jsonl 与当前版本的 topics 差异（63.3% 批次规则的落地结果）
+- 话题改标：regression/seed/topic_reclass_seed.jsonl（改标前 topics 的快照；原来取自 commit 83c8508，公开仓库历史重写后该 commit 已不存在，2026-09-19 改为落盘快照）
 - 矛盾判定：concepts-schema.md "真实案例"章节记录的 2 组 contradicts + 2 组被否掉的配对
 - 去重/层级：阶段2 的 refines 决定 + 跨 topic 的 7 处 refines
 - 命名撞车 / 聚合遗漏：一次真实代码库六步法实操的判断，已匿名化，见 cases/name_collision.jsonl 头部说明
@@ -87,45 +87,25 @@ def build_evidence(atoms, concepts, rng):
     return rows
 
 
-def build_topic(atoms_old, atoms_new, concepts, rng):
-    old = {a["id"]: a for a in atoms_old}
+def build_topic(atoms_new, seed_path):
+    """话题改标用例：改标前的 topics 快照存在 regression/seed/topic_reclass_seed.jsonl（2026-09-19 起不再依赖 git 历史——
+    公开仓库历史被重写过，原来引用的 commit 已不存在）。原子正文/type/source_type 取当前库，只有 original_topics 来自快照。"""
     new = {a["id"]: a for a in atoms_new}
-    removed, kept_prefix = [], []
-    for aid, a in old.items():
-        if TOPIC not in (a.get("topics") or []) or aid not in new:
-            continue
-        now_has = TOPIC in (new[aid].get("topics") or [])
-        if aid.startswith(PREFIXES):
-            (kept_prefix if now_has else removed).append(aid)
-    sy_evidence = set()
-    for c in concepts:
-        if c["id"].startswith("CPT-SY-"):
-            sy_evidence.update(c["evidence_atom_ids"])
-    kept_real = [aid for aid in sy_evidence if aid in new and TOPIC in (new[aid].get("topics") or []) and not aid.startswith(PREFIXES)]
-
     rows = []
-    def add(aid, label, strength, why):
-        a = old[aid]
+    for s in load_jsonl(seed_path):
+        a = new.get(s["atom_id"])
+        if not a:
+            continue
+        label = s["label"]
         rows.append({
-            "id": f"TP-{len(rows)+1:04d}", "kind": "topic_reclass", "strength": strength,
-            "input": {"atom_id": aid, "atom_type": a.get("type"), "source_type": a.get("source_type"),
-                      "original_topics": a.get("topics"), "atom_text": clip(a["knowledge"]),
+            "id": f"TP-{len(rows)+1:04d}", "kind": "topic_reclass", "strength": s.get("strength", "strong"),
+            "input": {"atom_id": a["id"], "atom_type": a.get("type"), "source_type": a.get("source_type"),
+                      "original_topics": s["original_topics"], "atom_text": clip(a["knowledge"]),
                       "question": f"这条原子是否应保留 '{TOPIC}' 标签"},
             "expected": {"label": label},
-            "source": why,
-            "repo_check": {"type": "topic_present" if label == "keep" else "topic_absent", "atom_id": aid, "topic": TOPIC},
+            "source": s.get("source", ""),
+            "repo_check": {"type": "topic_present" if label == "keep" else "topic_absent", "atom_id": a["id"], "topic": TOPIC},
         })
-    # 按前缀分层抽 24 条 remove
-    by_pre = defaultdict(list)
-    for aid in removed:
-        by_pre[next(p for p in PREFIXES if aid.startswith(p))].append(aid)
-    for p in PREFIXES:
-        for aid in rng.sample(sorted(by_pre[p]), min(6, len(by_pre[p]))):
-            add(aid, "remove", "strong", "HANDOFF-1 任务1：判定为通用商业管理内容机械缀话题词，已改标")
-    for aid in sorted(kept_prefix):
-        add(aid, "keep", "strong", "HANDOFF-1 任务1：同前缀批次里被逐条核实保留的真私域内容（最难的负例）")
-    for aid in rng.sample(sorted(kept_real), 12):
-        add(aid, "keep", "strong", "非清理批次、且是私域概念节点的证据原子")
     return rows
 
 
@@ -211,15 +191,14 @@ def build_code_cases():
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--base-commit", default="83c8508", help="topics 改标之前的 atoms.jsonl 版本")
     ap.add_argument("--seed", type=int, default=20260918)
+    ap.add_argument("--topic-seed", default=os.path.join(ROOT, "regression", "seed", "topic_reclass_seed.jsonl"))
     args = ap.parse_args()
     rng = random.Random(args.seed)
     atoms = load_jsonl(os.path.join(KN, "atoms.jsonl"))
     concepts = load_jsonl(os.path.join(KN, "concepts.jsonl"))
-    atoms_old = git_show_jsonl(args.base_commit, "knowledge/atoms.jsonl")
     write("evidence_link.jsonl", build_evidence(atoms, concepts, rng))
-    write("topic_reclass.jsonl", build_topic(atoms_old, atoms, concepts, rng))
+    write("topic_reclass.jsonl", build_topic(atoms, args.topic_seed))
     write("contradicts.jsonl", build_contradicts(atoms))
     write("dedup.jsonl", build_dedup(concepts))
     write("code_ontology.jsonl", build_code_cases())

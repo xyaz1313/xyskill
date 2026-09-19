@@ -25,7 +25,7 @@
 
 ## 来源与真实性
 
-原子来源不单一：一部分是账号/课程/自身实战一手内容（`source_type: course / user_import / account_video`），一部分是书籍蒸馏（`book_distilled`），一部分是第三方商业咨询方法论经重写、脱敏后的内化内容（`third_party_ip`，正文不点名具体第三方来源）——`atoms.jsonl` 里每条原子的 `source_type` 字段标了具体来源类型，不隐藏这个区分。
+原子来源不单一：一部分是账号/课程/自身实战一手内容（`source_type: course / user_import / account_video`），一部分是书籍方法论重写（`adapted_book`），一部分是第三方商业咨询方法论经重写、脱敏后的内化内容（`adapted_consulting`，正文不点名具体第三方来源）——`atoms.jsonl` 里每条原子的 `source_type` 字段标了具体来源类型，不隐藏这个区分。
 
 ## 许可证
 
