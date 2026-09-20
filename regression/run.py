@@ -3,7 +3,8 @@
 
   check                     核对仓库当前数据是否仍与用例的标注一致（数据漂移检测，不需要模型）
   emit  [--kind K] [--out]  导出答题卷：只含输入，answer 留空，交给当前环境的模型填
-  score <answers.jsonl>     对照答题卷算一致率，按 kind / 强弱标签分开报告，--min 低于阈值退出码 1
+  score <answers.jsonl>     对照答题卷算一致率，按 kind / 强弱标签分开报告，默认按 kind 分别设阈值过闸；
+                            --min 给单一全局阈值（旧用法，会跳过按 kind 分闸）
 
 判断本身不在这里跑：这套架构里判断外包给运行环境的模型（Claude Code 会话），脚本只负责
 出题、对答案、查数据漂移。答题卷格式：每行 {"id": "...", "answer": "<label>"}。
@@ -23,6 +24,37 @@ LABELS = {
     "dedup": ["merge", "refines", "keep_separate"],
     "name_collision": ["same_concept_variant", "layered_variant", "distinct_concept", "not_an_entity"],
     "aggregate_gap": ["aggregate_present_named_generically", "split_verifiable", "other"],
+}
+
+# 2026-09-20：三轮实测（本地26B裸考/注规则、DeepSeek注规则）发现 topic_reclass/dedup
+# 的标准答案编码了 XY 的内部口径，题面里原来没写这条口径，模型答错的不是判断力，是信息差。
+# 详见 docs/2026-09-20-g1-regression-calibration-fix.md。这里给的是判题依据，emit 时随题带出。
+CRITERIA = {
+    "topic_reclass": (
+        "判断口径：话题标签的职能是检索入口，不是内容相关性投票。满足以下任一条应判 remove："
+        "①内容是通用商业/管理方法论，话题词只是机械后缀，不是这条原子的核心场景；"
+        "②摘掉该话题不影响这条原子被真正需要它的人检索到；"
+        "③话题与原子核心判断只是沾边关系。都不满足才判 keep。"
+    ),
+    "dedup": (
+        "判断口径（G4默认姿势）：related≠same，宁可保留独立也不要错误合并成同一条。"
+        "先判断是不是以下两种关系，都不像才归第三种——"
+        "①两条讲的是同一个判断、只是表达不同 → merge；"
+        "②A是B的细化/特例/更具体的版本（其中一个成立不代表另一个一定成立）→ refines；"
+        "③以上都不是、只是话题相近 → keep_separate。"
+        "不要把'看不出关系'直接当成 keep_separate 的理由，那是没做①②的排除就跳到了兜底项。"
+    ),
+}
+
+# 每个 kind 单独设阈值，不用一把尺子量所有题：证据/去重判错直接污染原子库，必须硬卡；
+# 话题口径注入后再考，允许略低；小样本的先只报告不设闸，攒够题量再纳入。
+THRESHOLDS = {
+    "evidence_link": 0.80,
+    "dedup": 0.80,
+    "topic_reclass": 0.70,
+    "contradicts": None,
+    "name_collision": None,
+    "aggregate_gap": None,
 }
 
 
@@ -90,10 +122,14 @@ def cmd_emit(args):
     out = args.out or os.path.join(HERE, f"worksheet-{time.strftime('%Y%m%d-%H%M%S')}.jsonl")
     with open(out, "w", encoding="utf-8") as f:
         for r in rows:
-            f.write(json.dumps({"id": r["id"], "kind": r["kind"], "labels": LABELS[r["kind"]],
-                                "input": r["input"], "answer": None}, ensure_ascii=False) + "\n")
+            row = {"id": r["id"], "kind": r["kind"], "labels": LABELS[r["kind"]],
+                   "input": r["input"], "answer": None}
+            if r["kind"] in CRITERIA:
+                row["criteria"] = CRITERIA[r["kind"]]
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
     print(f"答题卷: {out}（{len(rows)} 题）")
-    print("填法：逐行把 answer 填成 labels 里的一个值，然后 python3 regression/run.py score <文件>")
+    print("填法：逐行把 answer 填成 labels 里的一个值（有 criteria 字段的题按那条口径判），"
+          "然后 python3 regression/run.py score <文件>")
     return 0
 
 
@@ -136,10 +172,33 @@ def cmd_score(args):
     if missing:
         print(f"\n未作答: {missing}")
     rate = total_ok / total_n if total_n else 0.0
-    print(f"\n强标签总一致率: {rate:.1%}（{total_ok}/{total_n}）")
-    if args.min is not None and rate < args.min:
-        print(f"低于阈值 {args.min:.0%}：先调规则或换模型，不要开工")
+    print(f"\n强标签总一致率: {rate:.1%}（{total_ok}/{total_n}，仅供参考，不是过闸依据）")
+
+    if args.min is not None:
+        # 显式给 --min 走旧的单一全局阈值（兼容老用法）
+        if rate < args.min:
+            print(f"低于阈值 {args.min:.0%}：先调规则或换模型，不要开工")
+            return 1
+        return 0
+
+    print("\n按 kind 分闸（不设闸的 kind 只报告，题量不足以判生死）：")
+    failed = []
+    for kind, threshold in THRESHOLDS.items():
+        n = stat[(kind, "strong")]["n"]
+        if n == 0:
+            continue
+        r = stat[(kind, "strong")]["ok"] / n
+        if threshold is None:
+            print(f"  {kind:18} {r:6.1%}（{n}题，仅报告）")
+            continue
+        ok = r >= threshold
+        print(f"  {kind:18} {r:6.1%} vs 阈值 {threshold:.0%}（{n}题）：{'过' if ok else '不过'}")
+        if not ok:
+            failed.append(kind)
+    if failed:
+        print(f"\n未过闸：{', '.join(failed)}——先调规则或换模型，不要开工")
         return 1
+    print("\n全部设闸的 kind 都过，可以开工")
     return 0
 
 
