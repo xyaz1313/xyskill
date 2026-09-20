@@ -182,12 +182,27 @@ status_one() {
   fi
 }
 
+# 换真源场景：旧链接指向的是不是"同一个XY仓库的另一份克隆"（而不是用户的真实文件）。
+# 判据：目标形如 <某仓库>/skills/<name>，该仓库是git仓库，且origin跟当前源仓库一致。
+same_xy_repo() {
+  local link="$1" src="$2" t repo_root src_root t_origin src_origin
+  t="$(readlink "$link" 2>/dev/null)"; [[ -n "$t" ]] || return 1
+  case "$t" in */skills/*) repo_root="${t%/skills/*}" ;; *) return 1 ;; esac
+  case "$src" in */skills/*) src_root="${src%/skills/*}" ;; *) return 1 ;; esac
+  [[ -d "$repo_root/.git" && -d "$src_root/.git" ]] || return 1
+  t_origin="$(git -C "$repo_root" remote get-url origin 2>/dev/null)"
+  src_origin="$(git -C "$src_root" remote get-url origin 2>/dev/null)"
+  [[ -n "$t_origin" && "$t_origin" == "$src_origin" ]]
+}
+
 # 旧入口清理 / 状态
 legacy_clean_one() {
   local src="$1" dest="$2" name="$3" link
   link="$dest/$name"
   [[ -d "$dest" ]] || return 0
   if [[ -L "$link" ]] && points_to "$link" "$src"; then rm "$link"; echo "✓ 旧入口：已清理 ${link}（该宿主改读公共入口）"
+  elif [[ -L "$link" ]] && same_xy_repo "$link" "$src"; then
+    rm "$link"; echo "✓ 旧入口：已清理 ${link}（指向同一XY仓库的旧克隆 $(readlink "$link")，换真源时一并清掉）"
   elif [[ -L "$link" ]]; then echo "✗ 旧入口：$link 指向别的源，已保留"; return 2
   elif [[ -e "$link" ]]; then echo "✗ 旧入口：$link 是真实目录或文件，已保留"; return 2
   fi
@@ -196,6 +211,8 @@ legacy_status_one() {
   local src="$1" dest="$2" name="$3" link
   link="$dest/$name"
   if [[ -L "$link" ]] && points_to "$link" "$src"; then echo "✗ 旧入口：$link 仍指向本源，重复入口，跑一次 link 可清理"; return 2
+  elif [[ -L "$link" ]] && same_xy_repo "$link" "$src"; then
+    echo "✗ 旧入口：$link 指向同一XY仓库的旧克隆 $(readlink "$link")，跑一次 link 可清理"; return 2
   elif [[ -L "$link" ]]; then echo "✗ 旧入口：$link 指向别的源 $(readlink "$link")"; return 2
   elif [[ -e "$link" ]]; then echo "✗ 旧入口：$link 存在真实目录或文件"; return 2
   fi
