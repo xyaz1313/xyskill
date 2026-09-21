@@ -348,6 +348,13 @@ if __name__ == "__main__":
     args = ap.parse_args()
 
     profile, profile_path = load_profile(args.file, args.profile)
+    if profile is None:
+        print("!" * 60, file=sys.stderr)
+        print("警告：找不到 profile.json，来源名单检查未启用（防泄露闸门未生效！），topic 校验已退回内置默认枚举。", file=sys.stderr)
+        print(f"查找过：{os.path.join(os.path.dirname(os.path.abspath(args.file)), 'profile.json')}", file=sys.stderr)
+        print(f"      {os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(args.file))), 'ontology', 'profile.json')}", file=sys.stderr)
+        print("如果这是客户工作区：多半是 atoms.jsonl 被复制/移到了别的目录，画像没跟着走——把它放回工作区，或显式传 --profile。", file=sys.stderr)
+        print("!" * 60, file=sys.stderr)
     result = lint(args.file, profile, profile_path, args.sources_dir, args.window)
     ws = _workspace(args.file)
     actions_result = context_result = None
