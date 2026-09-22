@@ -5,7 +5,7 @@
 
 ## 边界声明
 
-本体管辖范围：`knowledge/atoms.jsonl`（27,966 条知识原子，2026-09-18 去重后；后续以 `wc -l` 为准）本身的结构与语义，以及围绕它的检索/校验/维护脚本（`scripts/atoms-search.py`、`scripts/ontology-lint.py`、`scripts/upgrade-related-v1.py`）。
+本体管辖范围：`knowledge/atoms.jsonl`（28,226 条知识原子，2026-09-22；后续以 `wc -l` 为准）本身的结构与语义，以及围绕它的检索/校验/维护脚本（`scripts/atoms-search.py`、`scripts/ontology-lint.py`、`scripts/upgrade-related-v1.py`）。
 
 **明确不管**：
 - 各`skills/xy-*/SKILL.md`里的对话流程与教练式交互逻辑——那是本体之上的应用层，不是本体本身
@@ -67,7 +67,7 @@
 
 ## 来源类型（`source_type` 字段，2026-09-19 定名）
 
-| source_type | 含义 | 库里是否含原文 | 检索加权 | 条数（2026-09-19） |
+| source_type | 含义 | 库里是否含原文 | 检索加权 | 条数（2026-09-22） |
 |---|---|---|---|---|
 | `account_video` | 小爷自己账号的内容、直播复盘 | 有 `original`（自己的话） | +6 | 515 |
 | `course` | 小爷自己的课程体系 | 有（自己的话） | +6 | 1,020 |
@@ -75,13 +75,13 @@
 | `case_study` | 本体建模实操经验，已脱敏 | 无 | +6 | 10 |
 | `benchmark_account_video` | 对标账号内容，已脱敏 | 无 | 0 | 423 |
 | `platform_rule` | 四大平台公开规则（2026-08 查证） | 无 | 0 | 121 |
-| `adapted_consulting` | 咨询/管理类方法论，重写为生意场景的话 | **无** | 0 | 14,421 |
+| `adapted_consulting` | 咨询/管理类方法论，重写为生意场景的话 | **无** | 0 | 14,436 |
 | `adapted_book` | 书，重写 | **无** | 0 | 6,132 |
 | `adapted_course` | 线下课件，重写 | **无** | 0 | 334 |
-| `adapted_other` | 其它外部方法论，重写 | **无** | 0 | 3,057 |
+| `adapted_other` | 其它外部方法论，重写 | **无** | 0 | 3,304 |
 | `derived` | 概念节点（从原子聚合推导） | — | — | 概念层专用 |
 
-四个 `adapted_*` 合计 23,944 条（86%），全部是"重塑不照搬"：吸收逻辑、用自己的话重写、不留出处痕迹、不用来源的框架命名和案例措辞；`original` 字段一律为空，`source_label` 统一为"外部方法论·内化改写"。这是内容政策（见 `2026-09-17-xy-ontology-design.md` 第三节），不是权宜。
+四个 `adapted_*` 合计 24,206 条（86%），全部是"重塑不照搬"：吸收逻辑、用自己的话重写、不留出处痕迹、不用来源的框架命名和案例措辞；`original` 字段一律为空。`source_label`：2026-09-22 之前的统一为"外部方法论·内化改写"；2026-09-22 起的 `FDE3P-` 批次（259 条，企业 AI 落地 / FDE 交付）按公开来源如实标注——`Datawhale《FDE案例100》第一期·NO.x`、`腾讯研究院《FDE模式行业观察与实践》`，来源无法核实的一份手册标为"来源不明的FDE方法论手册（未核实）"且 confidence 一律 medium。无论哪种，正文都不点名人名和可定位的企业。这是内容政策（见 `2026-09-17-xy-ontology-design.md` 第三节），不是权宜。
 
 **改名记录**：2026-09-19 前这四类叫 `third_party_ip` / `book_distilled` / `offline_course_ppt` / `external_adapted`。改名理由是准确而不是隐藏——"third_party_ip"在法律语义上是错的（这些不是第三方的知识产权，是对第三方方法论的重写表达），"distilled"暗示原文提取而实际没有原文。历史文档（`docs/superpowers/specs/`、`docs/reports/`）里的旧名不改，按此表对照。库存构成与答案构成的复现命令：`python3 scripts/source-composition.py`。
 

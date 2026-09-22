@@ -8,9 +8,9 @@
 
 **A business & private-domain consultant that lives inside your AI.** Built by a Chinese private-domain operator with over a decade of hands-on experience — scaling a TCM wellness brand to ¥125M in 10 months, an aromatherapy brand to ¥240M in 2 years — this system packages that judgment into **46 Skills** across four lines: **private domain & traffic** (positioning, product selection, content, lead-gen, closing), **business & team** (models, compliance, headcount efficiency), **IP & content creation**, and **Ontology & FDE (Forward Deployed Engineer) methodology**.
 
-The Ontology/FDE line isn't a slide deck: the six-step modeling method actually ran on our own **27,966 knowledge atoms** and one real client system, producing **333 concept nodes** — and an independent AI fact-checked the results line by line before publishing. The process and conclusions are fully public, see [`xy-ontology`](skills/xy-ontology/SKILL.md).
+The Ontology/FDE line isn't a slide deck: the six-step modeling method actually ran on our own **~28,000 knowledge atoms** and one real client system, producing **333 concept nodes** — and an independent AI fact-checked the results line by line before publishing. The process and conclusions are fully public, see [`xy-ontology`](skills/xy-ontology/SKILL.md).
 
-![Version](https://img.shields.io/badge/version-2.9.0-2e6b4f.svg?style=flat-square)
+![Version](https://img.shields.io/badge/version-2.10.0-2e6b4f.svg?style=flat-square)
 ![License](https://img.shields.io/badge/license-CC%20BY--NC%204.0-c6ff00.svg?style=flat-square)
 
 Every judgment traces back to a specific atom ID; when it genuinely can't find one, it says so instead of making one up.
@@ -69,7 +69,7 @@ One skill at a time. Each round's conclusion becomes the input for the next roun
 
 Ontology is a discipline for defining the entities, types, hierarchy, and relationships inside a business — it traces back to the philosophical study of "being," later borrowed by computer science to solve the problem of "data piling up while AI still can't read the business structure." The role that does this work inside a company is called an FDE (Forward Deployed Engineer, "forward-deployed engineer") — someone who moves into a client's systems with tooling and builds out *that client's own* business structure, rather than selling a generic template.
 
-XY didn't stop at "explaining the concept": the six-step modeling method (define boundaries → extract entities → define types → build hierarchy → extract relations → verify) actually ran twice — once on our own 27,966 knowledge atoms, producing 333 concept nodes; once as a verification pass on one real client system. We didn't publish immediately after finishing — instead, an independent AI fact-checked the conclusions line by line against real data, fixed the errors it found, and only then republished. That's what step six, "verify," is actually for — not a formality.
+XY didn't stop at "explaining the concept": the six-step modeling method (define boundaries → extract entities → define types → build hierarchy → extract relations → verify) actually ran twice — once on our own ~28,000 knowledge atoms, producing 333 concept nodes; once as a verification pass on one real client system. We didn't publish immediately after finishing — instead, an independent AI fact-checked the conclusions line by line against real data, fixed the errors it found, and only then republished. That's what step six, "verify," is actually for — not a formality.
 
 ![Ontology & FDE methodology](docs/assets/ontology-fde-flow.png)
 
@@ -143,7 +143,7 @@ Chinese is the system's native tongue, but it follows the language you use — a
 
 ## Where the atoms come from
 
-`knowledge/atoms.jsonl` holds 27,966 knowledge atoms, tagged across 15 topics and 94 sub-blocks; every atom stands on its own and links back to others.
+`knowledge/atoms.jsonl` holds 28,226 knowledge atoms, tagged across 15 topics and 94 sub-blocks; every atom stands on its own and links back to others.
 
 **Two numbers, stated up front:**
 

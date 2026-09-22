@@ -1,1 +1,1 @@
-{"version": "2.9.0", "notice": "本体论/FDE能力线收官：xy-ontology免费skill+xy-fde三层执行边界；README新增本体论/FDE说明与专属流程图（共4张图）；企业引擎(enterprise-engine)迁至私有仓库并首发v0.1.0（G7 Action层+实时上下文层，16测试全过）；知识原子库27,966条、概念节点333个；历史遗留的客户信息引用已清理", "details_url": "https://github.com/xyaz1313/xyskill/blob/main/README.md"}
+{"version": "2.10.0", "notice": "新增 259 条企业AI落地/FDE交付知识原子（FDE3P-，来自 Datawhale《FDE案例100》第一期、腾讯研究院《FDE模式行业观察与实践》等公开材料，全部重写、正文脱敏），xy-fde 检索可直接引用真实案例；知识原子库 28,226 条、概念节点 333 个", "details_url": "https://github.com/xyaz1313/xyskill/blob/main/README.md"}
