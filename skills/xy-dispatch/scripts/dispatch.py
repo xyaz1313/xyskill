@@ -15,11 +15,11 @@ TRANSITIONS = {
     'draft': {'assigned', 'cancelled'},
     'assigned': {'accepted', 'declined', 'blocked', 'submitted', 'cancelled'},
     'accepted': {'in_progress', 'blocked', 'submitted', 'declined', 'cancelled'},
-    'in_progress': {'blocked', 'submitted', 'cancelled'},
-    'blocked': {'accepted', 'in_progress', 'submitted', 'needs_owner', 'cancelled'},
-    'submitted': {'passed', 'needs_revision', 'needs_owner', 'cancelled'},
+    'in_progress': {'blocked', 'submitted', 'declined', 'cancelled'},
+    'blocked': {'accepted', 'in_progress', 'submitted', 'needs_owner', 'declined', 'cancelled'},
+    'submitted': {'passed', 'needs_revision', 'needs_owner', 'declined', 'cancelled'},
     'needs_revision': {'in_progress', 'blocked', 'submitted', 'cancelled'},
-    'needs_owner': {'in_progress', 'needs_revision', 'passed', 'cancelled'},
+    'needs_owner': {'in_progress', 'needs_revision', 'passed', 'declined', 'cancelled'},
     'passed': set(), 'declined': set(), 'cancelled': set(),
 }
 
@@ -136,7 +136,8 @@ def main():
     root = root_expanded.resolve()
 
     if args.command == 'doctor':
-        emit({'state_dir': str(root_expanded), 'lark_cli': shutil.which('lark-cli'),
+        emit({'state_dir': str(root_expanded), 'exists': root.is_dir(),
+              'lark_cli': shutil.which('lark-cli'),
               'auth_verified': False, 'mode_available': ['text', 'on_demand']})
         return
 

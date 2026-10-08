@@ -132,6 +132,15 @@ class DispatchTests(unittest.TestCase):
         self.assertEqual(out['state_dir'], str(self.state_dir))
         self.assertIn('lark_cli', out)
 
+    def test_declined_reachable_from_in_progress(self):
+        self.write_task(valid_task())
+        run(self.state_dir, 'register', '--task-file', str(self.task_path))
+        for to_state in ('assigned', 'accepted', 'in_progress'):
+            run(self.state_dir, 'transition', '--task-id', 't1', '--to', to_state, '--evidence', '已核实')
+        code, out = run(self.state_dir, 'transition', '--task-id', 't1', '--to', 'declined', '--evidence', '对方明确拒绝')
+        self.assertEqual(code, 0, msg=out)
+        self.assertEqual(out['state'], 'declined')
+
 
 if __name__ == '__main__':
     unittest.main()
