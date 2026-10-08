@@ -75,9 +75,9 @@ assigned/accepted/in_progress/blocked/submitted/needs_owner → declined / cance
 | mode | `text` / `on_demand`（v1 只用这两个，字段保留给未来 `automatic`） |
 | state | 由状态机管理 |
 
-### 2.3 模板：`assets/person-profile.md`、`assets/task-brief.md`
+### 2.3 模板：人员资料、任务说明
 
-直接沿用 dbskill 的两份模板结构（人员资料 11 项字段、任务说明 5 个版块），翻译措辞对齐 XY 的中文表达习惯，不改字段设计——这部分 dbskill 做得完整，没有重新设计的必要。
+> 写作期间核对了 `xy-archive`/`xy-close`/`xy-link` 等现有 skill 的目录约定：工具类 skill（`xy-link`、`xy-sync`）不建 `assets/`/`references/`，文件模板直接以代码块形式嵌在 `SKILL.md` 正文里（`xy-archive` 的存档文件模板就是这样处理的）。`xy-dispatch` 跟 `xy-link` 同属工具类，所以不单独建 `assets/` 目录——人员资料模板、任务说明模板都沿用 dbskill 的字段结构（人员资料 11 项字段、任务说明 5 个版块），翻译措辞对齐 XY 表达习惯，作为 `SKILL.md` 正文里的代码块出现。
 
 ### 2.4 SKILL.md 核心流程
 
@@ -125,20 +125,17 @@ assigned/accepted/in_progress/blocked/submitted/needs_owner → declined / cance
 
 ```
 skills/xy-dispatch/
-  SKILL.md
+  SKILL.md              含人员资料/任务说明模板（代码块形式）+ 飞书接入细节
   scripts/
     dispatch.py        init/register/revise/transition/tasks/doctor
     test_dispatch.py    离线单元测试，不连飞书
-  assets/
-    person-profile.md
-    task-brief.md
-  references/
-    workflow.md         飞书接入细节：什么时候调 lark-doc/lark-im，怎么传参
   agents/
     openai.yaml
   evals/
     evals.json
 ```
+
+不建 `assets/`/`references/`——跟 `xy-link`/`xy-sync` 这类工具型 skill 的目录约定一致（见 2.3 节说明）。
 
 同时更新：
 - `_shared/skill-cn-names.json`：加 `xy-dispatch` 的中文显示名
