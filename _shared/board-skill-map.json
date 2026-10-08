@@ -60,7 +60,8 @@
    "xy-link",
    "xy-sync",
    "xy-skill-audit",
-   "xy-question-spec"
+   "xy-question-spec",
+   "xy-dispatch"
   ],
   "11 案例库": [
    "xy-precedent",
