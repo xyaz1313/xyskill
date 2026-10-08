@@ -1,0 +1,4 @@
+interface:
+  display_name: "xy-dispatch"
+  short_description: "把任务交给真人协作者：写清楚要求和验收标准，接反馈，验收后向你汇报进度与结果。"
+  default_prompt: "使用 $xy-dispatch，把这个任务交给小王，帮我写清楚要求和验收标准。"

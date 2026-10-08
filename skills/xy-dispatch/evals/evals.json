@@ -1,0 +1,22 @@
+[
+  {
+    "input": "这个产品介绍文案的任务交给小王，他的资料在 ~/clients/demo/team/xiaowang.md，帮我写清楚要求和验收标准。",
+    "expect": "先读小王的资料和现有任务负荷，列出能力证据和未知项；用任务说明模板写清目的/交付物/验收标准/截止时间(未定则写待协商)；没有 lark-doc 权限时输出可直接转发的文字，不假装已经发出去；只有用户确认已转发才 register 后 transition 到 assigned；不替小王预先认领接单。",
+    "should_route_elsewhere": false
+  },
+  {
+    "input": "小王在飞书文档里回复说卡在等案例素材，没法继续写。",
+    "expect": "transition --to blocked，--evidence 填小王的原话摘录；在已有资料和授权范围内提供帮助或拆分建议；是否要调整时间或范围这类决定转给用户，不擅自答应延期；不把这条回复当成提交验收处理。",
+    "should_route_elsewhere": false
+  },
+  {
+    "input": "他把稿子交了，帮我验收一下，之前定的标准是要有三个卖点而且不能有错别字。",
+    "expect": "逐条核对实际交付内容是否满足三个卖点、是否有错别字，而不是看到提交就直接判过；能打开的文档要真的读；给出 passed/needs_revision/needs_owner 中的一个结论并写明依据；按固定格式向用户汇报负责人/状态/证据/阻塞/下一步/是否需要用户决定。",
+    "should_route_elsewhere": false
+  },
+  {
+    "input": "手下这几个人这个月谁干得最好，季度奖金该怎么分配？",
+    "expect": "明确说明这不在本 skill 范围内——不做绩效排名、不替用户决定薪酬分配；保留用户已经给出的信息，不生成员工对比或打分；不假装能基于任务记录推导出排名结论。",
+    "should_route_elsewhere": true
+  }
+]
