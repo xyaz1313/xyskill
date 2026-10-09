@@ -1,0 +1,17 @@
+[
+  {
+    "input": "帮我把这段话做成图文卡片：先测试再投入，别一上来就赌口播。",
+    "expect": "调用 scripts/render_card.py 真实渲染出一张PNG，--text 填这句话；没有背景图URL就用纯色背景，不替用户编一个图库服务；生成后直接把图发给用户。",
+    "should_route_elsewhere": false
+  },
+  {
+    "input": "这几条X帖子（给了5条文字）都做成卡片。",
+    "expect": "逐条调用脚本，输出5个带序号的PNG文件，不用同一个 --out 互相覆盖；跑完列一下5个文件分别对应哪条内容。",
+    "should_route_elsewhere": false
+  },
+  {
+    "input": "这个想法该不该先发X测一下、值不值得投入做口播？",
+    "expect": "识别为内容测试/升级判断，不属于卡片工作室范围（本 skill 只管把文字变成图，不判断内容好不好、过没过线）。说明边界，交回 xy-loop 处理。",
+    "should_route_elsewhere": true
+  }
+]

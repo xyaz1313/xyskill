@@ -1,0 +1,4 @@
+interface:
+  display_name: "xy-card"
+  short_description: "卡片工作室：调系统Chrome无头截图，文字确定性渲染成3:4图文卡片PNG，不是AI画图。"
+  default_prompt: "使用 $xy-card，把这段文字渲染成图文卡片。"
