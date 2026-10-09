@@ -1,7 +1,7 @@
 ---
 name: xy-casefile
 slug: xy-casefile
-version: 1.0.4
+version: 1.0.5
 displayName: 决策复盘立案
 display_name: "决策复盘立案"
 display_name_en: "决策立案"
