@@ -143,7 +143,7 @@ def lint(path, profile=None, profile_path=None, sources_dir=None, window=24):
                 issues.append((lineno, aid, f"命中来源名单: {nm!r}"))
         if windows:
             k = ws.sub("", d.get("knowledge") or "")
-            for i in range(0, max(0, len(k) - window + 1), 4):
+            for i in range(0, max(0, len(k) - window + 1)):
                 if k[i:i + window] in windows:
                     issues.append((lineno, aid, f"疑似原文照搬(与素材有≥{window}字连续重合): …{k[i:i + window]}…"))
                     break
@@ -355,7 +355,17 @@ if __name__ == "__main__":
         print(f"      {os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(args.file))), 'ontology', 'profile.json')}", file=sys.stderr)
         print("如果这是客户工作区：多半是 atoms.jsonl 被复制/移到了别的目录，画像没跟着走——把它放回工作区，或显式传 --profile。", file=sys.stderr)
         print("!" * 60, file=sys.stderr)
+    if profile is not None and profile.get("blocklist_file") and not _resolve(profile_path, profile.get("blocklist_file")):
+        print("!" * 60, file=sys.stderr)
+        print(f"警告：profile.json 声明了 blocklist_file={profile.get('blocklist_file')!r}，但这个文件不存在——来源名单检查未启用（防泄露闸门未生效！）。", file=sys.stderr)
+        print("检查一下这个文件是不是没跟着工作区一起建/移动，或者路径拼错了。", file=sys.stderr)
+        print("!" * 60, file=sys.stderr)
     result = lint(args.file, profile, profile_path, args.sources_dir, args.window)
+    if args.sources_dir and result["source_windows"] == 0:
+        print("!" * 60, file=sys.stderr)
+        print(f"警告：--sources-dir {args.sources_dir!r} 给了，但没读到任何窗口——'原文照搬'检查等于没跑。", file=sys.stderr)
+        print("只识别 .txt / .md / .srt / .json / .jsonl 后缀；.docx / .pdf 等格式不读，也不会报错，容易误以为查过了。", file=sys.stderr)
+        print("!" * 60, file=sys.stderr)
     ws = _workspace(args.file)
     actions_result = context_result = None
     if args.actions:
