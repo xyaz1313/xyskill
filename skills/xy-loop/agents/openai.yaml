@@ -1,0 +1,4 @@
+interface:
+  display_name: "xy-loop"
+  short_description: "内容闭环：想法先发X测数据，过线转卡片发短视频再测，双线过线才提醒升级口播直播。"
+  default_prompt: "使用 $xy-loop，帮我判断这个想法该不该先发X测一下。"
