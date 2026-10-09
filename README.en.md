@@ -91,7 +91,7 @@ This line splits into two layers with a hard boundary:
 | Product selection & supply chain | `/xy-selection` | Two-axis classification, cost accounting, paid-test plan |
 | IP & positioning | `/xy-ip` `/xy-goal-card` | Seven positioning criteria, an executable goal card |
 | Content creation | `/xy-content-scan` `/xy-opener` `/xy-script-glue` `/xy-human-touch` `/xy-replica` | Five-dimension diagnosis, opening-line candidates, flow check, de-AI-flavor pass, viral-content replication |
-| Titles & distribution | `/xy-xhs-headline` `/xy-echo-test` | Top-3 titles, resonance-mechanism breakdown |
+| Titles & distribution | `/xy-rednote-title` `/xy-echo-test` | Top-3 titles, resonance-mechanism breakdown |
 | Traffic & lead-gen | `/xy-traffic` `/xy-peer-pick` | Account-warmup & lead-gen path, benchmark screening |
 | Long-form editing | `/xy-clip` `/xy-recut` | Turn a transcript into short-video segments, or trim/reorder a long video |
 | Private-domain ops & closing | `/xy-private-ops` `/xy-close` | Full diagnosis from WeChat moments to repeat purchase |

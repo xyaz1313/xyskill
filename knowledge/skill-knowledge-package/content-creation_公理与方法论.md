@@ -2,7 +2,7 @@
 
 来自 XY 操盘系统正式 skill：`xy-content-scan`（内容诊断）、`xy-opener`（开头诊断与生成）、`xy-script-glue`（逐字稿衔接检查）、`xy-idea-desk`（想法工作台）、`xy-clip`（长内容切片）、`xy-replica`（爆款素材复刻）。
 
-这份文档是从上述 6 个 skill 的 SKILL.md 正文里，把"核心哲学/信条/工作逻辑/硬约束"部分原样抽出来单独打包。句末括号里的编号对应 `knowledge/atoms.jsonl` 里的原子 id。`xy-xhs-headline`（小红书标题公式）本质是 75 个可直接套用的公式模板库，不是判断类"信条"，本次未纳入这份打包。
+这份文档是从上述 6 个 skill 的 SKILL.md 正文里，把"核心哲学/信条/工作逻辑/硬约束"部分原样抽出来单独打包。句末括号里的编号对应 `knowledge/atoms.jsonl` 里的原子 id。`xy-rednote-title`（小红书标题公式）本质是 75 个可直接套用的公式模板库，不是判断类"信条"，本次未纳入这份打包。
 
 许可证同仓库：CC BY-NC 4.0，个人使用不需要署名，公开发布注明来源，商用需要单独授权。
 

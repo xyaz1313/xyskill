@@ -92,7 +92,7 @@ XY 操盘系统没有停在"讲讲概念"：六步建模法（定边界→抽实
 | 选品与供应链 | `/xy-selection` | 两轴分类、成本核算、收费测试方案 |
 | IP 与定位 | `/xy-ip` `/xy-goal-card` | 七项定位标准、可开工的目标卡 |
 | 内容创作 | `/xy-content-scan` `/xy-opener` `/xy-script-glue` `/xy-human-touch` `/xy-replica` | 五维诊断、开头候选、衔接检查、去 AI 味、爆款素材复刻 |
-| 标题与传播 | `/xy-xhs-headline` `/xy-echo-test` | 标题 Top 3、共鸣机制解码 |
+| 标题与传播 | `/xy-rednote-title` `/xy-echo-test` | 标题 Top 3、共鸣机制解码 |
 | 流量与导流 | `/xy-traffic` `/xy-peer-pick` | 起号与导流路径、对标筛选 |
 | 长内容剪辑 | `/xy-clip` `/xy-recut` | 逐字稿切成短视频组装方案、长视频删减重排 |
 | 私域运营与成交 | `/xy-private-ops` `/xy-close` | 朋友圈到复购的逐环诊断 |

@@ -15,7 +15,7 @@
 | `execution-psychology_公理与方法论.md` | xy-kickoff / xy-slow-lane / xy-goal-card / xy-question-spec | 13 |
 | `concept-precedent_公理与方法论.md` | xy-term-crack / xy-precedent / xy-peer-pick | 9 |
 
-工具类/工程类 skill（xy-link、xy-sync、xy-vault、xy-workbench、xy-archive、xy-resume、xy-brief、xy-casefile、xy-skill-audit、xy-course、xy-roundtable、xy-coach、xy、xy-publish-guard、xy-atomize、xy-mp-layout、xy-xhs-headline）不带判断类"信条"，本次未纳入打包。`xy-xhs-headline` 是 75 个可直接套用的小红书标题公式模板库，性质和这份"判断方法论"打包不同，需要的话另见 `skills/xy-xhs-headline/`。
+工具类/工程类 skill（xy-link、xy-sync、xy-vault、xy-workbench、xy-archive、xy-resume、xy-brief、xy-casefile、xy-skill-audit、xy-course、xy-roundtable、xy-coach、xy、xy-publish-guard、xy-atomize、xy-mp-layout、xy-rednote-title）不带判断类"信条"，本次未纳入打包。`xy-rednote-title` 是 75 个可直接套用的小红书标题公式模板库，性质和这份"判断方法论"打包不同，需要的话另见 `skills/xy-rednote-title/`。
 
 ## 怎么用
 

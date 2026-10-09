@@ -112,7 +112,7 @@ bash "<本 SKILL.md 所在目录>/../xy-sync/scripts/xy-sync.sh" check-remote
 | 有课程/直播/访谈逐字稿要剪短视频 | `/xy-clip` | 跨时间轴切片方案，零字新增 |
 | 一条长视频/直播回放太长想剪短、"删掉跑题的重新排一下"（不是切短视频，是同一条长内容瘦身） | `/xy-recut` | 按论证节点分块，保留/删除/后移，出时间码对照表 |
 | "开头怎么写" | `/xy-opener` | 短视频开头 |
-| "帮我起标题" | `/xy-xhs-headline` | 75 公式匹配 |
+| "帮我起标题" | `/xy-rednote-title` | 75 公式匹配 |
 | "稿子顺不顺""哪里会划走" | `/xy-script-glue` | 逐字稿衔接检查 |
 | "有没有共鸣""为什么这个能火" | `/xy-echo-test` | 共鸣与传播解码 |
 | "这段话是不是太像AI写的""帮我改得像人话" | `/xy-human-touch` | 20 项逐句去 AI 味 |
@@ -212,7 +212,7 @@ bash "<本 SKILL.md 所在目录>/../xy-sync/scripts/xy-sync.sh" check-remote
 | 结论信号 | 下一步 | 为什么 |
 |---|---|---|
 | 内容方向对，开头弱 | `/xy-opener` | 专项 |
-| 内容 OK，要标题 | `/xy-xhs-headline` | 专项 |
+| 内容 OK，要标题 | `/xy-rednote-title` | 专项 |
 | 内容 OK，准备发 | `/xy-publish-guard` | 发布前排雷 |
 | 内容 OK，问怎么接私域 | `/xy-traffic` | 内容→导流 |
 | 选题本身没价值 | `/xy-idea-desk` | 回到想法层 |
@@ -290,7 +290,7 @@ bash "<本 SKILL.md 所在目录>/../xy-sync/scripts/xy-sync.sh" check-remote
 **来自 `/xy-ai-workflow`**
 | 结论信号 | 下一步 | 为什么 |
 |---|---|---|
-| 某工位要单独优化 | `/xy-idea-desk` / `/xy-clip` / `/xy-xhs-headline` / `/xy-publish-guard` | 工位级 skill |
+| 某工位要单独优化 | `/xy-idea-desk` / `/xy-clip` / `/xy-rednote-title` / `/xy-publish-guard` | 工位级 skill |
 | 想固化成 skill 且要管素材 | `/xy-atomize` | 入库 |
 | 流水线跑通要长期跟踪产出 | `/xy-casefile` | 回填 |
 

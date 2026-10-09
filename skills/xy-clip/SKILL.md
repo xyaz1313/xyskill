@@ -30,7 +30,7 @@ description: 【长内容切片】长内容切片。把课程、直播复盘、�
 | 逐字稿还没有，想从零写一条口播 | `xy-content-scan` / `xy-opener`（本 skill 只处理已录好的素材，不生产新内容） |
 | 切出来的文案发之前想排雷 | `xy-publish-guard`（本 skill 不判断合规） |
 | 几十场直播、上百节课要整体做成素材库 | `xy-atomize`（本 skill 一次处理一份逐字稿） |
-| 切片要配什么标题 | `xy-xhs-headline` |
+| 切片要配什么标题 | `xy-rednote-title` |
 
 ---
 

@@ -51,7 +51,7 @@
     "./skills/xy-traffic",
     "./skills/xy-vault",
     "./skills/xy-workbench",
-    "./skills/xy-xhs-headline",
+    "./skills/xy-rednote-title",
     "./skills/xy"
   ],
   "agents": [

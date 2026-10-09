@@ -32,7 +32,7 @@ description: 【内容诊断】内容诊断。选题已经定了，帮你判断�
 | 想法还没长成选题，「我有个念头」 | `xy-idea-desk` |
 | 已经有稿子，要逐句查 AI 味、公式化 | `xy-human-touch` |
 | 发布前排雷、「这条会不会违规」 | `xy-publish-guard` |
-| 只要一个开头 / 只要一个标题 | `xy-opener` / `xy-xhs-headline` |
+| 只要一个开头 / 只要一个标题 | `xy-opener` / `xy-rednote-title` |
 
 本 skill 管「这条内容该不该这么做」；用户只要其中一件小活，说明边界、保留已提取的信息，交回 `/xy`。
 
