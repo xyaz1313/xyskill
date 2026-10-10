@@ -1,7 +1,7 @@
 ---
 name: xy-kickoff
 slug: xy-kickoff
-version: 1.0.3
+version: 1.0.4
 displayName: 执行力诊断
 display_name: "执行力诊断"
 display_name_en: "开工诊断"

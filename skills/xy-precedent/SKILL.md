@@ -1,7 +1,7 @@
 ---
 name: xy-precedent
 slug: xy-precedent
-version: 1.0.3
+version: 1.0.4
 displayName: 商业案例对照
 display_name: "商业案例对照"
 display_name_en: "历史同构"
